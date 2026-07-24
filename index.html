@@ -54,13 +54,13 @@
     <!-- 每日 Tab 切換欄 -->
     <div class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm overflow-x-auto">
         <div class="max-w-5xl mx-auto flex whitespace-nowrap px-4 py-3 gap-2 scrollbar-none">
-            <button onclick="switchTab('day1')" id="tab-day1" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-blue-600 text-white shadow-sm transition-all">
+            <button onclick="switchTab('day1')" id="tab-day1" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold transition-all bg-blue-600 text-white shadow-sm">
                 D1 (Oct 4) 薩格勒布
             </button>
-            <button onclick="switchTab('day2')" id="tab-day2" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+            <button onclick="switchTab('day2')" id="tab-day2" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
                 D2 (Oct 5) 十六湖
             </button>
-            <button onclick="switchTab('day3')" id="tab-day3" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+            <button onclick="switchTab('day3')" id="tab-day3" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold transition-all bg-slate-100 text-slate-600 hover:bg-slate-200">
                 D3 (Oct 6) 杜布羅夫尼克
             </button>
             <button onclick="switchTab('day4')" id="tab-day4" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
@@ -82,7 +82,7 @@
     <main class="max-w-3xl mx-auto px-4 mt-6">
 
         <!-- ================= DAY 1 行程 ================= -->
-        <div id="content-day1" class="tab-content block space-y-6">
+        <div id="content-day1" class="tab-content space-y-6 block">
             
             <!-- 日期標題 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
@@ -205,9 +205,8 @@
                         <button onclick="toggleMemo('memo-transit-2')" class="text-xs font-semibold text-slate-500 hover:text-emerald-600 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" aria-hidden="true" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg> 備註 / 備忘錄 (點擊展開/折疊)
                         </button>
-                        <div id="memo-transit-2" class="hidden mt-2 p-3 bg-emerald-50/50 rounded-lg text-xs text-slate-600 border border-emerald-100/50 editable-field" contenteditable="true">
-                            可在路邊書報攤（Tisak）提前買好電車單程票，上車記得打票。
-                        </div>
+                        <div id="memo-transit-2" class="mt-2 p-3 bg-emerald-50/50 rounded-lg text-xs text-slate-600 border border-emerald-100/50 editable-field" contenteditable="true">
+                            酒店出門步行 1 分鐘到Autobusni kol. 電車站<div>搭6 號電車往Črnomerec，終點下車就是耶拉其恰廣場（起點 / 終點樞紐）<div><br></div><div>用 Moj ZET 買 60 分鐘票 €0.93<div>-&nbsp;進入「Kupi kartu（買票）」頁面</div><div>-&nbsp;票種選擇：60 minuta（60 分鐘單程票）</div><div><br></div><div><span style="font-size: 0.75rem;">*</span>上電車後「驗票」最重要（千萬別忘）*<br></div><div>1. 上 6 號電車後，車門旁貼有 QR Code 貼紙。&nbsp;</div><div>2. 打開 App 內已購買的 60 分鐘車票：&nbsp;</div><div>&nbsp; &nbsp; &nbsp;方式 A（通用）：點掃描 QR Code，對準車上貼紙完成驗票；&nbsp;</div><div>&nbsp; &nbsp; &nbsp;方式 B（手機支援 NFC）：開啟 NFC，手機貼近貼紙直接感應驗票。&nbsp;</div><div>3. 驗票完成後，倒數計時開始（60 分鐘），期間可隨意轉乘其他電車 / 公車。<br></div><div><a href="https://www.youtube.com/shorts/FVir67LvQwg">https://www.youtube.com/shorts/FVir67LvQwg</a><br></div><div><br></div></div></div></div>
                     </div>
                 </div>
 
@@ -367,7 +366,7 @@
                         <button onclick="toggleMemo('memo-spot-stonegate')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" aria-hidden="true" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg> 備註 / 備忘錄 (點擊展開/折疊)
                         </button>
-                        <div id="memo-spot-stonegate" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                        <div id="memo-spot-stonegate" class="mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field hidden" contenteditable="true">
                             經過石門內部時請保持安靜，避免大聲喧嘩，以尊重當地的宗教信仰與祈禱者。
                         </div>
                     </div>
@@ -421,7 +420,7 @@
                         <button onclick="toggleMemo('memo-spot-stmark')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" aria-hidden="true" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg> 備註 / 備忘錄 (點擊展開/折疊)
                         </button>
-                        <div id="memo-spot-stmark" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                        <div id="memo-spot-stmark" class="mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field hidden" contenteditable="true">
                             此景點目前只看外觀。廣場周邊偶有政府儀式或衛兵交接，是非常熱門的拍照打卡點。
                         </div>
                     </div>
@@ -475,9 +474,9 @@
                         <button onclick="toggleMemo('memo-spot-broken')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="chevron-down" aria-hidden="true" class="lucide lucide-chevron-down w-3.5 h-3.5"><path d="m6 9 6 6 6-6"></path></svg> 備註 / 備忘錄 (點擊展開/折疊)
                         </button>
-                        <div id="memo-spot-broken" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                        <div id="memo-spot-broken" class="mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
                             館內設有精美咖啡廳與紀念品店，販售「壞回憶橡皮擦」等趣味文創商品。建議預留 1 至 1.5 小時細細閱讀展品故事。
-                        </div>
+                        <div><br></div><div>逛完失戀博物館，沿下坡街道走回耶拉其恰廣場（步行約 10 分鐘，全程下坡輕鬆）<br></div><div>在廣場同一電車站搭6 號電車（反方向，往 Autobusni kolodvor），10 分鐘回到汽車總站電車站，步行 1 分鐘返回 Hotel iNova。<br></div></div>
                     </div>
                 </div>
 
@@ -488,7 +487,7 @@
 
         <!-- ================= DAY 2-7 預留佔位內容 ================= -->
          <!-- ================= DAY 2 行程 ================= -->
-        <div id="content-day2" class="tab-content block space-y-6">
+        <div id="content-day2" class="tab-content space-y-6 hidden">
             
             <!-- 日期標題 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
@@ -715,7 +714,7 @@
         </div>
 
         <!-- ================= DAY 3 行程 (Oct 6) ================= -->
-        <div id="content-day3" class="tab-content hidden space-y-6">
+        <div id="content-day3" class="tab-content space-y-6 hidden">
             
             <!-- 日期標題 -->
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
