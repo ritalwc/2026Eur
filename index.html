@@ -2048,6 +2048,26 @@
         }
     };
 
+    // 打開設定彈窗
+function openSettingsModal() {
+  const modal = document.getElementById('settingsModal');
+  if (!modal) return;
+  // 打開彈窗時自動載入本地Git配置
+  initializeApp();
+  modal.classList.remove('hidden');
+  modal.style.display = 'flex';
+}
+window.openSettings = openSettingsModal;
+
+// 關閉設定彈窗
+function closeSettingsModal() {
+  const modal = document.getElementById('settingsModal');
+  if (!modal) return;
+  modal.classList.add('hidden');
+  modal.style.display = 'none';
+}
+window.closeSettingsModal = closeSettingsModal;
+
     // =================================================================
     // 2. 全域錯誤攔截器 (保證任何 JS 報錯都不會卡死網頁)
     // =================================================================
@@ -2226,8 +2246,8 @@
         const tempWrapper = document.createElement('div');
         tempWrapper.innerHTML = document.body.innerHTML;
         // 隱藏設定彈窗、同步按鈕避免備份出「同步中」狀態
-        const modal = temp.querySelector('#settingsModal');
-        const syncBtnClone = temp.querySelector('#btnSyncToGithub');
+        const modal = tempWrapper.querySelector('#settingsModal');
+        const syncBtnClone = tempWrapper.querySelector('#btnSyncToGithub');
         if(modal) modal.style.display = 'none';
         if(syncBtnClone) syncBtnClone.removeAttribute('disabled');
 
