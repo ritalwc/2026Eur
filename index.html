@@ -2239,43 +2239,7 @@
             btn.disabled = false;
         }
     }
-    // 監聽整個網頁的按鍵事件
-document.addEventListener('keydown', function(e) {
-    // 檢查是否按下了 Cmd + K (Mac) 或 Ctrl + K (Windows)
-    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
-        
-        // 檢查目前游標是不是在可編輯的格子 (contenteditable) 裡面
-        const activeEl = document.activeElement;
-        if (activeEl && activeEl.getAttribute('contenteditable') === 'true') {
-            e.preventDefault(); // 阻止瀏覽器預設行為（例如瀏覽器搜尋框）
-
-            const selection = window.getSelection();
-            const selectedText = selection.toString().trim();
-
-            // 如果沒有選取任何文字，提示使用者
-            if (!selectedText) {
-                alert('請先用滑鼠選取（反白）想要加入連結的文字！');
-                return;
-            }
-
-            // 彈出輸入框讓使用者輸入網址
-            const url = prompt('請輸入超連結網址 (URL):', 'https://');
-            
-            if (url && url !== 'https://') {
-                // 執行瀏覽器內建的超連結插入指令
-                document.execCommand('createLink', false, url);
-
-                // 為了讓新插入的超連結有漂亮的藍色底線外觀，並在新分頁打開
-                // 我們幫剛剛建立的 <a> 標籤加上 CSS 樣式
-                const anchor = selection.anchorNode.parentElement;
-                if (anchor && anchor.tagName === 'A') {
-                    anchor.target = '_blank'; // 在新分頁開啟
-                    anchor.className = 'text-blue-600 hover:text-blue-800 underline font-medium cursor-pointer';
-                }
-            }
-        }
-    }
-});
+    
 </script>
 <!-- ========================================================================= -->
 
