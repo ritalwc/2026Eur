@@ -2203,7 +2203,7 @@
             }
 
             const fullHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
-            const path = 'index-2.html';
+            const path = 'index.html';
             const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
 
             let sha = '';
@@ -2272,7 +2272,7 @@
             btn.disabled = true;
         }
 
-        const path = 'index-2.html';
+        const path = 'index.html';
         const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
 
         try {
@@ -2297,7 +2297,7 @@
                 initializeApp();
                 alert('📥 成功從雲端載入最新行程！');
             } else {
-                alert('❌ 無法從 GitHub 獲取檔案，請確認儲存庫中是否有 index-2.html。');
+                alert('❌ 無法從 GitHub 獲取檔案，請確認儲存庫中是否有 index.html。');
             }
         } catch (error) {
             alert('❌ 載入失敗，請檢查網路或 Token 權限。');
