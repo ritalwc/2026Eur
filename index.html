@@ -481,6 +481,60 @@
                 </div>
 
             </div>
+            <!-- 虛線連接器 8 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行前往附近推薦餐廳享用晚餐</span>
+                    </div>
+                </div>
+
+                <!-- 9. 餐廳推薦卡片 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-rose-100">
+                    <!-- 左側流線小圓點（橘紅色） -->
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-rose-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-md">
+                            🍴 餐廳推薦 Restaurant
+                        </span>
+                        <span class="text-xs font-medium text-rose-700 bg-rose-100 px-2 py-0.5 rounded" contenteditable="true">晚餐首選 (Dinner)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">Nokturno 傳統克羅地亞餐廳</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Nokturno+Zagreb" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🕒 營業時間 (Opening Hours)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">每日 09:00–24:00</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-slate-500 block">💰 預算參考 (Budget)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">每人約 €10.00 - €20.00 (高CP值)</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-700 block text-xs mb-1">📝 餐廳特色與推薦菜色 (Highlights)：</span>
+                        <div class="editable-field" contenteditable="true">
+                            位於舊城區熱鬧的 Skalinska 街上，是薩格勒布極受歡迎且高 CP 值的餐廳。提供傳統克羅地亞料理與意式餐點。特別推薦嘗試當地的傳統麵食「Štruklji」（焗烤起司卷），以及份量十足的烤肉拼盤（Ćevapi）。餐廳設有舒適的戶外露天座位，非常有歐洲風情。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-restaurant-1')" class="text-xs font-semibold text-slate-500 hover:text-rose-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-restaurant-1" class="hidden mt-2 p-3 bg-rose-50/50 rounded-lg text-xs text-slate-600 border border-rose-100/50 editable-field" contenteditable="true">
+                            熱門用餐時段人潮較多，但翻桌速度快。建議點一份 Štruklji 作為前菜或甜點與朋友分享。
+                        </div>
+                    </div>
+                </div>
             <!-- 行程流線結束 -->
 
         </div>
@@ -2185,6 +2239,43 @@
             btn.disabled = false;
         }
     }
+    // 監聽整個網頁的按鍵事件
+document.addEventListener('keydown', function(e) {
+    // 檢查是否按下了 Cmd + K (Mac) 或 Ctrl + K (Windows)
+    if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        
+        // 檢查目前游標是不是在可編輯的格子 (contenteditable) 裡面
+        const activeEl = document.activeElement;
+        if (activeEl && activeEl.getAttribute('contenteditable') === 'true') {
+            e.preventDefault(); // 阻止瀏覽器預設行為（例如瀏覽器搜尋框）
+
+            const selection = window.getSelection();
+            const selectedText = selection.toString().trim();
+
+            // 如果沒有選取任何文字，提示使用者
+            if (!selectedText) {
+                alert('請先用滑鼠選取（反白）想要加入連結的文字！');
+                return;
+            }
+
+            // 彈出輸入框讓使用者輸入網址
+            const url = prompt('請輸入超連結網址 (URL):', 'https://');
+            
+            if (url && url !== 'https://') {
+                // 執行瀏覽器內建的超連結插入指令
+                document.execCommand('createLink', false, url);
+
+                // 為了讓新插入的超連結有漂亮的藍色底線外觀，並在新分頁打開
+                // 我們幫剛剛建立的 <a> 標籤加上 CSS 樣式
+                const anchor = selection.anchorNode.parentElement;
+                if (anchor && anchor.tagName === 'A') {
+                    anchor.target = '_blank'; // 在新分頁開啟
+                    anchor.className = 'text-blue-600 hover:text-blue-800 underline font-medium cursor-pointer';
+                }
+            }
+        }
+    }
+});
 </script>
 <!-- ========================================================================= -->
 
