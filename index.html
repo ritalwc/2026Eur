@@ -39,7 +39,9 @@
             
             <!-- 右側：按鈕組 -->
             <div class="flex items-center gap-2">
-                <button id="btnSyncToGithub" onclick="syncToGithub()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3.5 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition duration-200 text-xs md:text-sm" disabled=""><i class="w-4 h-4 animate-spin"></i> 同步中...</button>
+                <button id="btnSyncToGithub" onclick="syncToGithub()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3.5 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition duration-200 text-xs md:text-sm">
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4"><path d="M19 21H5a2 2 0 0 1-2-2m2-5 7 7 7-7m-7 7V3"></path></svg> 手動同步
+</button>
                 <button id="btnLoadFromGithub" onclick="loadFromGithub()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3.5 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition duration-200 text-xs md:text-sm">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" data-lucide="cloud-download" aria-hidden="true" class="lucide lucide-cloud-download w-4 h-4"><path d="M12 13v8l-4-4"></path><path d="m12 21 4-4"></path><path d="M4.393 15.269A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.436 8.284"></path></svg> 從雲端載入
                 </button>
@@ -2205,84 +2207,82 @@
     // 8. 同步到 GitHub
     // =================================================================
     async function syncToGithub() {
-        const user = safeStorage.getItem('git_user');
-        const repo = safeStorage.getItem('git_repo');
-        const token = safeStorage.getItem('git_token');
-
-        if (!user || !repo || !token) {
-            alert('💡 請先設定您的 GitHub 帳號、儲存庫與 Token！');
-            return;
-        }
-
-        const btn = document.getElementById('btnSyncToGithub') || document.querySelector('[onclick*="syncToGithub"]');
-        const originalText = btn ? btn.innerHTML : '同步到雲端';
-
-        try {
-            // 複製 DOM，移除不必要的 UI 狀態再上傳
-            const docClone = document.documentElement.cloneNode(true);
-            const cloneBtn = docClone.querySelector('#btnSyncToGithub') || docClone.querySelector('[onclick*="syncToGithub"]');
-            if (cloneBtn) {
-                cloneBtn.innerHTML = originalText;
-                cloneBtn.removeAttribute('disabled');
-                cloneBtn.disabled = false;
-            }
-            const cloneModal = docClone.querySelector('#settingsModal') || docClone.querySelector('[id*="modal"]');
-            if (cloneModal) {
-                cloneModal.classList.add('hidden');
-                cloneModal.style.display = 'none';
-            }
-
-            if (btn) {
-                btn.innerHTML = '🍺 同步中...';
-                btn.disabled = true;
-            }
-
-            const fullHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
-            const path = 'index.html'; // 根據您的檔名，自動同步為 index.html
-            const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
-
-            let sha = '';
-            const getRes = await fetch(url, {
-                headers: { 'Authorization': `token ${token}` }
-            });
-            
-            if (getRes.ok) {
-                const getData = await getRes.json();
-                sha = getData.sha;
-            }
-
-            const utf8Bytes = new TextEncoder().encode(fullHtml);
-            const base64Content = btoa(String.fromCharCode(...utf8Bytes));
-
-            const putRes = await fetch(url, {
-                method: 'PUT',
-                headers: {
-                    'Authorization': `token ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    message: `update: 行程表自動同步於 ${new Date().toLocaleString()}`,
-                    content: base64Content,
-                    sha: sha || undefined
-                })
-            });
-
-            if (putRes.ok) {
-                alert('🚀 同步成功！最新行程已備份至雲端。');
-            } else {
-                const errData = await putRes.json();
-                alert(`❌ 同步失敗：${errData.message}`);
-            }
-        } catch (error) {
-            alert('❌ 同步失敗，請確認您的 Token 權限或網路連線。');
-        } finally {
-            if (btn) {
-                btn.innerHTML = originalText;
-                btn.disabled = false;
-            }
-        }
+    // 讀取配置
+    const user = safeStorage.getItem('git_user');
+    const repo = safeStorage.getItem('git_repo');
+    const token = safeStorage.getItem('git_token');
+    if (!user || !repo || !token) {
+        alert('💡 請先點齒輪設定GitHub帳號、儲存庫與Token！');
+        return;
     }
-    window.syncToGithub = syncToGithub;
+    const btn = document.getElementById('btnSyncToGithub');
+    const originalHtml = btn.innerHTML;
+    // 建立中斷控制器，15秒超時
+    const controller = new AbortController();
+    const timeoutTimer = setTimeout(() => controller.abort(), 15000);
+
+    try {
+        // 輕量克隆，只保留body內容，唔複製全頁巨量DOM防卡死
+        const tempWrapper = document.createElement('div');
+        tempWrapper.innerHTML = document.body.innerHTML;
+        // 隱藏設定彈窗、同步按鈕避免備份出「同步中」狀態
+        const modal = temp.querySelector('#settingsModal');
+        const syncBtnClone = temp.querySelector('#btnSyncToGithub');
+        if(modal) modal.style.display = 'none';
+        if(syncBtnClone) syncBtnClone.removeAttribute('disabled');
+
+        const fullHtml = `<!DOCTYPE html><html><head><meta charset="UTF-8"><title>${document.title}</title></head><body>${tempWrapper.innerHTML}</body></html>`;
+        // 鎖定按鈕
+        btn.disabled = true;
+        btn.innerHTML = '<svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke-width="2" fill="none" stroke="currentColor"></circle></svg> 同步中...';
+        
+        const url = `https://api.github.com/repos/${user}/${repo}/contents/index.html`;
+        // 先查詢現有檔案sha
+        const getRes = await fetch(url, {
+            signal: controller.signal,
+            headers: { 'Authorization': `token ${token}` }
+        });
+        let sha = '';
+        if (getRes.ok) {
+            const getData = await getRes.json();
+            sha = getData.sha;
+        }
+        // 編碼內容上傳
+        const uint8 = new TextEncoder().encode(fullHtml);
+        const base64 = btoa(String.fromCharCode(...uint8));
+        const putRes = await fetch(url, {
+            method: 'PUT',
+            signal: controller.signal,
+            headers: {
+                'Authorization': `token ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                message: `手動同步 ${new Date().toLocaleString()}`,
+                content: base64,
+                sha: sha || undefined
+            })
+        });
+        if (putRes.ok) {
+            alert('✅ 手動同步完成！');
+        } else {
+            const err = await putRes.json();
+            alert(`❌ 同步失敗：${err.message}`);
+        }
+    } catch (err) {
+        if(err.name === 'AbortError') {
+            alert('⏱️ 同步超時，請檢查網路或GitHub Token');
+        } else {
+            alert('❌ 同步異常：' + err.message);
+        }
+    } finally {
+        // 無論成功/失敗/超時，強制解鎖按鈕，永遠唔卡死
+        clearTimeout(timeoutTimer);
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+    }
+}
+window.syncToGithub = syncToGithub;
 
     // =================================================================
     // 9. 從 GitHub 載入
@@ -2326,8 +2326,9 @@
                 const parser = new DOMParser();
                 const newDoc = parser.parseFromString(decodedHtml, 'text/html');
                 
-                document.body.innerHTML = newDoc.body.innerHTML;
-                document.title = newDoc.title;
+                // 分段清空替換，防止巨量DOM一次性渲染卡死
+document.body.replaceChildren(...newDoc.body.children);
+document.title = newDoc.title;
 
                 // 重新初始化
                 initializeApp();
@@ -2346,13 +2347,7 @@
     }
     window.loadFromGithub = loadFromGithub;
 
-    // =================================================================
-    // 10. 啟動程序
-    // =================================================================
-    document.addEventListener('DOMContentLoaded', initializeApp);
-    if (document.readyState === 'interactive' || document.readyState === 'complete') {
-        initializeApp();
-    }
+   
 </script>
 <!-- ========================================================================= -->
 
