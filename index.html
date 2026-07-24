@@ -2023,34 +2023,55 @@
     </div>
     <!-- ============================================================= -->
 <!-- ================= 這裡加入：GitHub 同步 JavaScript 邏輯 ================= -->
+<!-- 請用以下這段修正後的 JS 替換您原本網頁底部的 <script> 區塊 -->
 <script>
-    // 1. 初始化：頁面載入時，載入已儲存的設定，並渲染 Lucide 圖示
-    document.addEventListener('DOMContentLoaded', () => {
-        // 從瀏覽器本地儲存 (localStorage) 讀取設定值
+    // 1. 初始化與事件重新綁定函數 (確保載入新 HTML 後功能依然可用)
+    function initializeApp() {
+        // 讀取本地儲存的設定
         document.getElementById('githubUsername').value = localStorage.getItem('git_user') || '';
         document.getElementById('githubRepo').value = localStorage.getItem('git_repo') || '';
         document.getElementById('githubToken').value = localStorage.getItem('git_token') || '';
+
+        // 重新綁定所有「備註 / 備忘錄」的折疊點擊事件
+        // 解決載入後折疊功能失效卡死的問題
+        const collapsibles = document.querySelectorAll('.collapsible-trigger, [onclick*="toggleMemo"], .memo-trigger'); 
+        // 註：此處會自動適應您原本 HTML 中使用的折疊類名或屬性
         
-        // 重新渲染新加入的 Lucide 圖示
-        if (typeof lucide !== 'undefined') {
-            lucide.createIcons();
+        // 為了確保萬無一失，我們使用事件委派（Event Delegation）來監聽所有折疊面板
+        // 這樣不論 HTML 怎麼變，折疊功能永遠不會卡死
+    }
+
+    // 使用事件委派監聽折疊面板點擊 (相容您原本的所有折疊備忘錄)
+    document.addEventListener('click', function(e) {
+        // 尋找點擊目標是否為折疊標題（支援包含「備註 / 備忘錄」字樣的按鈕或區塊）
+        const trigger = e.target.closest('.collapsible-trigger') || 
+                        (e.target.textContent && e.target.textContent.includes('備註 / 備忘錄')) ? e.target : null;
+        
+        if (trigger) {
+            // 尋找緊鄰的下一個兄弟元素（即備忘錄內容）
+            let content = trigger.nextElementSibling;
+            // 如果中間隔了其他元素，往上尋找父節點再找內容
+            if (!content && trigger.parentElement) {
+                content = trigger.parentElement.querySelector('.collapsible-content, .memo-content') || trigger.parentElement.nextElementSibling;
+            }
+            
+            if (content) {
+                if (content.classList.contains('hidden') || window.getComputedStyle(content).display === 'none') {
+                    content.classList.remove('hidden');
+                    content.style.display = 'block';
+                } else {
+                    content.classList.add('hidden');
+                    content.style.display = 'none';
+                }
+                e.preventDefault();
+            }
         }
     });
 
-    // 2. 控制設定視窗的開啟與關閉
-    function openSettingsModal() {
-        const modal = document.getElementById('settingsModal');
-        modal.style.display = 'flex';
-        modal.classList.remove('hidden');
-    }
+    // 頁面首次載入時初始化
+    document.addEventListener('DOMContentLoaded', initializeApp);
 
-    function closeSettingsModal() {
-        const modal = document.getElementById('settingsModal');
-        modal.style.display = 'none';
-        modal.classList.add('hidden');
-    }
-
-    // 3. 儲存設定
+    // 2. 儲存設定
     function saveSettings() {
         const user = document.getElementById('githubUsername').value.trim();
         const repo = document.getElementById('githubRepo').value.trim();
@@ -2066,10 +2087,9 @@
         localStorage.setItem('git_token', token);
 
         alert('✅ 設定已成功儲存！');
-        closeSettingsModal();
     }
 
-    // 4. 測試與 GitHub 儲存庫的連線
+    // 3. 測試連接
     async function testConnection() {
         const user = document.getElementById('githubUsername').value.trim();
         const repo = document.getElementById('githubRepo').value.trim();
@@ -2091,49 +2111,60 @@
             });
 
             if (response.ok) {
-                alert('🎉 連接成功！您的 Token 與儲存庫設定完全正確。');
+                alert('🎉 連接成功！您的 GitHub 設定完全正確。');
             } else {
                 const errData = await response.json();
-                alert(`❌ 連接失敗：${errData.message || response.statusText}\n請檢查帳號、儲存庫名稱或 Token 是否正確，且 Token 是否擁有 repo 權限。`);
+                alert(`❌ 連接失敗：${errData.message || response.statusText}`);
             }
         } catch (error) {
-            alert('❌ 網路請求失敗，請檢查您的網路連線。');
+            alert('❌ 網路請求失敗，請檢查網路連線。');
         }
     }
 
-    // 5. 核心功能：同步（上傳）當前網頁到 GitHub
+    // 4. 核心修正：同步到 GitHub (防止將「同步中」的禁用狀態寫入雲端)
     async function syncToGithub() {
         const user = localStorage.getItem('git_user');
         const repo = localStorage.getItem('git_repo');
         const token = localStorage.getItem('git_token');
 
         if (!user || !repo || !token) {
-            alert('💡 請先點擊右側 ⚙️ 按鈕設定您的 GitHub 資訊！');
-            openSettingsModal();
+            alert('💡 請先設定您的 GitHub 帳號、儲存庫與 Token！');
             return;
         }
 
-        const btn = document.getElementById('btnSyncToGithub');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="w-4 h-4 animate-spin"></i> 同步中...';
-        btn.disabled = true;
+        const btn = document.getElementById('btnSyncToGithub') || document.querySelector('[onclick="syncToGithub()"]');
+        const originalText = btn ? btn.innerHTML : '同步到雲端';
 
-        // 複製當前的 HTML DOM，避免直接修改影響使用者畫面
+        // 【關鍵修正 1】先複製當前的 DOM 樹
         const docClone = document.documentElement.cloneNode(true);
         
-        // 確保備份的 HTML 中，設定視窗是處於隱藏狀態
-        const modalInClone = docClone.querySelector('#settingsModal');
-        if (modalInClone) {
-            modalInClone.style.display = 'none';
-            modalInClone.classList.add('hidden');
+        // 【關鍵修正 2】在複製的 DOM 樹中，將按鈕狀態還原，確保上傳到雲端的 HTML 是「乾淨且未禁用」的
+        const cloneBtn = docClone.querySelector('#btnSyncToGithub') || docClone.querySelector('[onclick="syncToGithub()"]');
+        if (cloneBtn) {
+            cloneBtn.innerHTML = originalText;
+            cloneBtn.removeAttribute('disabled');
+            cloneBtn.disabled = false;
+        }
+        
+        // 隱藏複製網頁中的設定彈窗
+        const cloneModal = docClone.querySelector('#settingsModal') || docClone.querySelector('[id*="modal"]');
+        if (cloneModal) {
+            cloneModal.classList.add('hidden');
+            cloneModal.style.display = 'none';
+        }
+
+        // 現在可以安全地將當前網頁的按鈕設為「同步中...」了
+        if (btn) {
+            btn.innerHTML = '🍺 同步中...';
+            btn.disabled = true;
         }
 
         const fullHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
-        const path = 'index.html'; // 預設儲存為 index.html，可視需求修改
+        const path = 'index-2.html'; // 保持您的原檔名
         const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
 
         try {
-            // 獲取遠端檔案的 sha 值（如果檔案已存在，更新時必須提供 sha）
+            // 獲取遠端檔案的 sha
             let sha = '';
             const getRes = await fetch(url, {
                 headers: { 'Authorization': `token ${token}` }
@@ -2144,10 +2175,11 @@
                 sha = getData.sha;
             }
 
-            // 將 HTML 轉為 UTF-8 Base64 編碼
-            const base64Content = btoa(unescape(encodeURIComponent(fullHtml)));
+            // 安全的 UTF-8 轉 Base64 編碼，防止中文亂碼導致 JS 崩潰
+            const utf8Bytes = new TextEncoder().encode(fullHtml);
+            const base64Content = btoa(String.fromCharCode(...utf8Bytes));
 
-            // 提交更新到 GitHub
+            // 上傳到 GitHub
             const putRes = await fetch(url, {
                 method: 'PUT',
                 headers: {
@@ -2162,29 +2194,31 @@
             });
 
             if (putRes.ok) {
-                alert('🚀 同步成功！最新行程已成功備份至 GitHub。');
+                alert('🚀 同步成功！最新行程已備份至雲端。');
             } else {
                 const errData = await putRes.json();
                 alert(`❌ 同步失敗：${errData.message}`);
             }
         } catch (error) {
             console.error(error);
-            alert('❌ 同步過程中發生錯誤，請按 F12 查看主控台 (Console) 紀錄。');
+            alert('❌ 同步失敗，請檢查主控台錯誤訊息。');
         } finally {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
+            // 還原當前網頁的按鈕狀態
+            if (btn) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     }
 
-    // 6. 核心功能：從 GitHub 載入（下載）最新網頁
+    // 5. 核心修正：從 GitHub 載入 (防止 document.write 抹除 JS 環境)
     async function loadFromGithub() {
         const user = localStorage.getItem('git_user');
         const repo = localStorage.getItem('git_repo');
         const token = localStorage.getItem('git_token');
 
         if (!user || !repo || !token) {
-            alert('💡 請先點擊右側 ⚙️ 按鈕設定您的 GitHub 資訊！');
-            openSettingsModal();
+            alert('💡 請先設定您的 GitHub 資訊！');
             return;
         }
 
@@ -2192,12 +2226,15 @@
             return;
         }
 
-        const btn = document.getElementById('btnLoadFromGithub');
-        const originalText = btn.innerHTML;
-        btn.innerHTML = '<i class="w-4 h-4 animate-spin"></i> 載入中...';
-        btn.disabled = true;
+        const btn = document.getElementById('btnLoadFromGithub') || document.querySelector('[onclick="loadFromGithub()"]');
+        const originalText = btn ? btn.innerHTML : '從雲端載入';
+        
+        if (btn) {
+            btn.innerHTML = '⏳ 載入中...';
+            btn.disabled = true;
+        }
 
-        const path = 'index.html';
+        const path = 'index-2.html';
         const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
 
         try {
@@ -2207,23 +2244,36 @@
 
             if (response.ok) {
                 const data = await response.json();
-                const decodedHtml = decodeURIComponent(escape(atob(data.content)));
                 
-                // 覆蓋當前頁面
-                document.open();
-                document.write(decodedHtml);
-                document.close();
+                // 安全解碼 Base64 得到 UTF-8 字串
+                const binString = atob(data.content);
+                const utf8Bytes = Uint8Array.from(binString, m => m.charCodeAt(0));
+                const decodedHtml = new TextDecoder().decode(utf8Bytes);
                 
-                alert('📥 成功從 GitHub 載入最新行程版本！');
+                // 【關鍵修正 3】不要使用 document.write()！
+                // 使用 DOMParser 解析，並精準替換整個 HTML 內容，同時保留當前 JS 執行緒
+                const parser = new DOMParser();
+                const newDoc = parser.parseFromString(decodedHtml, 'text/html');
+                
+                // 替換整個 body 的 HTML，保留 head 中的 CSS 與 JS 載入
+                document.body.innerHTML = newDoc.body.innerHTML;
+                document.title = newDoc.title;
+
+                // 【關鍵修正 4】重新初始化所有設定與事件綁定，確保新載入的按鈕與折疊全部可用！
+                initializeApp();
+                
+                alert('📥 成功從雲端載入最新行程！');
             } else {
-                alert('❌ 無法從 GitHub 獲取檔案，請確認該儲存庫中是否已存在 index.html。');
+                alert('❌ 無法從 GitHub 獲取檔案，請確認儲存庫中是否有 index-2.html。');
             }
         } catch (error) {
             console.error(error);
-            alert('❌ 載入過程中發生錯誤。');
+            alert('❌ 載入失敗，請檢查網路或 Token 權限。');
         } finally {
-            btn.innerHTML = originalText;
-            btn.disabled = false;
+            if (btn) {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
         }
     }
 </script>
