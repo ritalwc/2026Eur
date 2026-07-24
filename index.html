@@ -1,0 +1,2200 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>2026 歐洲三國之旅 - 互動行程表</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        .editable-field:focus {
+            outline: 2px solid #3b82f6;
+            background-color: #f3f4f6;
+            border-radius: 0.25rem;
+            padding: 2px 4px;
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased pb-24">
+
+    <!-- 頂部橫幅 -->
+    <div class="bg-gradient-to-r from-blue-900 to-indigo-950 text-white text-center py-8 px-4 shadow-md">
+        <h1 class="text-3xl font-bold flex items-center justify-center gap-2">
+            🍺 <span class="editable-field" contenteditable="true">2026 歐洲三國之旅</span>
+        </h1>
+        <p class="text-blue-200 mt-2 text-sm md:text-base">
+            <span class="editable-field" contenteditable="true">克羅地亞 ➔ 葡萄牙 ➔ 西班牙 | Oct 4 – Nov 1</span>
+        </p>
+    </div>
+
+     <!-- ================= 這裡加入：GitHub 同步控制列 ================= -->
+    <div class="bg-slate-900 text-slate-100 border-b border-slate-800">
+        <div class="max-w-5xl mx-auto px-4 py-2.5 flex items-center justify-between flex-wrap gap-3">
+            <!-- 左側：狀態提示 -->
+            <div class="flex items-center gap-2 text-xs md:text-sm text-slate-400">
+                <span class="inline-block w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span>雲端同步已就緒</span>
+            </div>
+            
+            <!-- 右側：按鈕組 -->
+            <div class="flex items-center gap-2">
+                <button id="btnSyncToGithub" onclick="syncToGithub()" class="bg-blue-600 hover:bg-blue-500 text-white font-semibold px-3.5 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition duration-200 text-xs md:text-sm">
+                    <i data-lucide="cloud-upload" class="w-4 h-4"></i> 同步到 GitHub
+                </button>
+                <button id="btnLoadFromGithub" onclick="loadFromGithub()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold px-3.5 py-1.5 rounded-lg shadow-sm flex items-center gap-1.5 transition duration-200 text-xs md:text-sm">
+                    <i data-lucide="cloud-download" class="w-4 h-4"></i> 從雲端載入
+                </button>
+                <button onclick="openSettingsModal()" class="bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-300 p-1.5 rounded-lg transition duration-200" title="GitHub 同步設定">
+                    <i data-lucide="settings" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================= -->
+
+    <!-- 每日 Tab 切換欄 -->
+    <div class="sticky top-0 z-50 bg-white border-b border-slate-200 shadow-sm overflow-x-auto">
+        <div class="max-w-5xl mx-auto flex whitespace-nowrap px-4 py-3 gap-2 scrollbar-none">
+            <button onclick="switchTab('day1')" id="tab-day1" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-blue-600 text-white shadow-sm transition-all">
+                D1 (Oct 4) 薩格勒布
+            </button>
+            <button onclick="switchTab('day2')" id="tab-day2" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+                D2 (Oct 5) 十六湖
+            </button>
+            <button onclick="switchTab('day3')" id="tab-day3" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+                D3 (Oct 6) 杜布羅夫尼克
+            </button>
+            <button onclick="switchTab('day4')" id="tab-day4" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+                D4 (Oct 7) 古城牆
+            </button>
+            <button onclick="switchTab('day5')" id="tab-day5" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+                D5 (Oct 8) 斯普利特
+            </button>
+            <button onclick="switchTab('day6')" id="tab-day6" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+                D6 (Oct 9) 札達爾
+            </button>
+            <button onclick="switchTab('day7')" id="tab-day7" class="tab-btn px-4 py-2 rounded-full text-sm font-semibold bg-slate-100 text-slate-600 hover:bg-slate-200 transition-all">
+                D7+ (後續行程)
+            </button>
+        </div>
+    </div>
+
+    <!-- 主內容區 -->
+    <main class="max-w-3xl mx-auto px-4 mt-6">
+
+        <!-- ================= DAY 1 行程 ================= -->
+        <div id="content-day1" class="tab-content block space-y-6">
+            
+            <!-- 日期標題 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-blue-900 text-white font-bold rounded-xl px-4 py-3 text-center min-w-[70px]">
+                    <div class="text-xs uppercase tracking-wider">Day</div>
+                    <div class="text-2xl">01</div>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="editable-field" contenteditable="true">Oct 4 (日) 薩格勒布初探 Zagreb First Touch</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span class="editable-field" contenteditable="true">Vienna ➔ Zagreb | 克羅地亞首都舊城區漫步</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 行程流線開始 -->
+            <div class="relative pl-6 border-l-2 border-dashed border-slate-300 ml-4 space-y-8">
+
+                <!-- 1. 聯外交通卡片 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-blue-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
+                            🚌 聯外交通 Intercity Transit
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded" contenteditable="true">FlixBus</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 editable-field" contenteditable="true">
+                        維也納中央車站 ➔ 薩格勒布巴士站 (Vienna Central Station ➔ Zagreb Bus Station)
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1 text-sm text-slate-600">
+                        <p>🕒 預計時間：<span class="editable-field font-semibold" contenteditable="true">06:45 ➔ 09:00</span></p>
+                        <p>🚌 班次資訊：<span class="editable-field" contenteditable="true">Route 885 | 車程約 2小時15分</span></p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-transit-1')" class="text-xs font-semibold text-slate-500 hover:text-blue-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-transit-1" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            請提前15分鐘抵達維也納中央車站 FlixBus 月台。上車需出示電子車票及護照以供跨國邊境檢查。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 1 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">從巴士站步行約 8 分鐘 / 或搭 Tram 6 到酒店附近下車</span>
+                    </div>
+                </div>
+
+                <!-- 2. 住宿卡片 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-amber-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-amber-600 uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-md">
+                            🏨 酒店住宿 Accommodation
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-0.5 rounded" contenteditable="true">2 晚 (2 Nights)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">伊諾娃酒店 (Hotel iNova)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Hotel+iNova+Zagreb" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1 text-sm text-slate-600">
+                        <p>📍 地址：<span class="editable-field" contenteditable="true">Avenija Marina Držića 5, 10000, Zagreb, Croatia</span></p>
+                        <p>🔑 Check-in：<span class="editable-field font-semibold" contenteditable="true">15:30 (可先寄放行李)</span></p>
+                        <p>🛏️ 房型：<span class="editable-field" contenteditable="true">高級特大雙人床房 | 1位成人</span></p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-hotel-1')" class="text-xs font-semibold text-slate-500 hover:text-amber-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-hotel-1" class="hidden mt-2 p-3 bg-amber-50/50 rounded-lg text-xs text-slate-600 border border-amber-100/50 editable-field" contenteditable="true">
+                            下午3點半到酒店辦理 Check-in。如果提早抵達，可先將大件行李寄放在前台。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 2 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚋 <span class="editable-field" contenteditable="true">從酒店步行至 Tram 6 站，搭電車前往舊城區 (約 15 分鐘)</span>
+                    </div>
+                </div>
+
+                <!-- 3. 市內交通卡片 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-emerald-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider bg-emerald-50 px-2.5 py-1 rounded-md">
+                            🚋 市內交通 City Transit
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">Tram 6</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 editable-field" contenteditable="true">
+                        搭乘 6 號地面電車前往舊城區 (Tram 6 to Old Town)
+                    </h3>
+                    
+                    <p class="text-sm text-slate-600 mt-2 editable-field" contenteditable="true">
+                        坐6號地面電車直接出舊城區，於耶拉其恰廣場站（Ban Jelačić Square）下車。
+                    </p>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-transit-2')" class="text-xs font-semibold text-slate-500 hover:text-emerald-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-transit-2" class="hidden mt-2 p-3 bg-emerald-50/50 rounded-lg text-xs text-slate-600 border border-emerald-100/50 editable-field" contenteditable="true">
+                            可在路邊書報攤（Tisak）提前買好電車單程票，上車記得打票。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 3 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">電車下車即達廣場中心</span>
+                    </div>
+                </div>
+
+                <!-- 4. 景點 1：耶拉其恰廣場 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 01 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費 (Free)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">耶拉其恰廣場 (Ban Jelačić Square / Trg Bana Jelačića)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Ban+Jelacic+Square+Zagreb" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🕒 開放時間 (Opening Hours)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">24小時開放 (24 Hours)</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🎫 門票價格 (Ticket Price)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">免費參觀 (Free)</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-700 block text-xs mb-1">📝 景點簡介 (Introduction)：</span>
+                        <div class="editable-field" contenteditable="true">
+                            耶拉其恰廣場是薩格勒布的市中心與靈魂所在，也是連接上城區和下城區的交通樞紐。廣場始建於17世紀，中央矗立著克羅地亞民族英雄總督耶拉其恰的騎馬雕像。這裡四周環繞著古典主義、新藝術運動及現代主義風格的宏偉建築，地面電車穿梭其間。作為當地人最喜愛的聚會場所，廣場上常年設有露天市集、街頭藝人表演，是感受薩格勒布都市活力與市井風情的最佳起點。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-spot-jelacic')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-spot-jelacic" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            廣場周邊有許多咖啡廳，可以點一杯克羅地亞咖啡，體驗當地悠閒的「Spica」咖啡文化。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 4 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">從廣場步行約 3 分鐘即達主教座堂</span>
+                    </div>
+                </div>
+
+                <!-- 5. 景點 2：札格瑞布主教座堂 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 02 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費 (Free)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">札格瑞布主教座堂 (Zagreb Cathedral / Katedrala)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Zagreb+Cathedral" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🕒 開放時間 (Opening Hours)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">每日 08:00–19:00 (彌撒期間可能限制參觀)</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🎫 門票價格 (Ticket Price)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">免費參觀 (大教堂寶庫 Treasury 需另行預約)</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-700 block text-xs mb-1">📝 景點簡介 (Introduction)：</span>
+                        <div class="editable-field" contenteditable="true">
+                            克羅地亞最高的新哥德式雙塔教堂，高達108米，是薩格勒布最醒目的地標。始建於1093年，歷經韃靼入侵與1880年大地震，後由奧地利建築師 Hermann Bollé 主導重建，於1902年完工。教堂內部藏有世界頂級的管風琴以及精美的杜勒祭壇畫。值得注意的是，出口右側的停頓時鐘永遠停在 7:03，這正是1880年大地動發生的悲痛時刻。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-spot-cathedral')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-spot-cathedral" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            目前教堂外觀仍有部分修復工程。進入教堂請注意服裝儀容，不可穿著無袖或過短的短褲。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 5 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行約 8 分鐘，經 Radićeva 街前往石門</span>
+                    </div>
+                </div>
+
+                <!-- 6. 景點 3：石門 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 03 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費 (Free)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">石門 (Stone Gate / Kamenita Vrata)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Stone+Gate+Zagreb" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🕒 開放時間 (Opening Hours)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">24小時開放 (24 Hours)</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🎫 門票價格 (Ticket Price)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">免費參觀 (Free)</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-700 block text-xs mb-1">📝 景點簡介 (Introduction)：</span>
+                        <div class="editable-field" contenteditable="true">
+                            石門是薩格勒布中世紀老城牆中唯一保存完好的城門，建於13世紀。在1731年的一場毀滅性大火中，整座城門幾乎化為灰燼，但神奇的是，一幅描繪聖母瑪利亞懷抱嬰兒耶穌的畫像卻完好無損。此後，這裡被改建為一座莊嚴的露天聖堂。如今，每天都有無數信徒和遊客前來點燃蠟燭、低頭祈禱，石門兩側的牆壁上貼滿了寫著「Hvala」（謝謝）的石牌，用以感謝聖母的庇佑與神蹟。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-spot-stonegate')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-spot-stonegate" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            經過石門內部時請保持安靜，避免大聲喧嘩，以尊重當地的宗教信仰與祈禱者。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 6 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">穿過石門步行約 2 分鐘即達聖馬爾谷廣場</span>
+                    </div>
+                </div>
+
+                <!-- 7. 景點 4：聖馬爾谷教堂 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 04 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">只看外觀 (Exterior Only)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">聖馬爾谷教堂 (St. Mark's Church / Crkva sv. Marka)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=St.+Mark's+Church+Zagreb" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🕒 開放時間 (Opening Hours)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">外觀24小時可看 (內部不定期開放)</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🎫 門票價格 (Ticket Price)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">免費參觀外觀 (Free Exterior)</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-700 block text-xs mb-1">📝 景點簡介 (Introduction)：</span>
+                        <div class="editable-field" contenteditable="true">
+                            聖馬爾谷教堂是薩格勒布最具代表性的地標之一，以其色彩斑斕、極具童話感的馬賽克瓷磚屋頂而聞名。屋頂左側瓷磚拼貼出克羅地亞、斯拉沃尼亞和達爾馬提亞三位一體王國的徽章，右側則是薩格勒布市的城徽。這座教堂始建於13世紀，融合了羅曼式與哥德式建築風格。教堂坐落於聖馬爾谷廣場中心，兩側分別是克羅地亞國會大廈和政府大樓，是克羅地亞國家政治權力的核心地帶。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-spot-stmark')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-spot-stmark" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            此景點目前只看外觀。廣場周邊偶有政府儀式或衛兵交接，是非常熱門的拍照打卡點。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 7 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">向南步行約 3 分鐘即達失戀博物館</span>
+                    </div>
+                </div>
+
+                <!-- 8. 景點 5：失戀博物館 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 05 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">€9.00</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">失戀博物館 (Museum of Broken Relationships)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Museum+of+Broken+Relationships+Zagreb" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🕒 開放時間 (Opening Hours)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">冬季(10月-5月) 每日 09:00–21:00 | 最後入場 20:30</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🎫 門票價格 (Ticket Price)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">成人 €9.00 / 學生及長者 €7.00</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-700 block text-xs mb-1">📝 景點簡介 (Introduction)：</span>
+                        <div class="editable-field" contenteditable="true">
+                            全球首間以「失戀」為主題的博物館，位於上城區19世紀的巴洛克式 Kulmer Palace 內。館藏來自世界各地失戀者自願捐贈的私人物品——從泰迪熊、鑰匙、婚紗到一把斧頭，每件看似平凡的展品背後，都附有一段由捐贈者親自撰寫、令人心碎、釋懷或會心一笑的故事。該館於2011年榮獲歐洲最具創新博物館獎，是探索人類情感與現代藝術的必游之地。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-spot-broken')" class="text-xs font-semibold text-slate-500 hover:text-indigo-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-spot-broken" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            館內設有精美咖啡廳與紀念品店，販售「壞回憶橡皮擦」等趣味文創商品。建議預留 1 至 1.5 小時細細閱讀展品故事。
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- 行程流線結束 -->
+
+        </div>
+
+        <!-- ================= DAY 2-7 預留佔位內容 ================= -->
+         <!-- ================= DAY 2 行程 ================= -->
+        <div id="content-day2" class="tab-content block space-y-6">
+            
+            <!-- 日期標題 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-emerald-600 text-white font-bold rounded-xl px-4 py-3 text-center min-w-[70px]">
+                    <div class="text-xs uppercase tracking-wider">Day</div>
+                    <div class="text-2xl">02</div>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="editable-field" contenteditable="true">Oct 5 (一) 十六湖國家公園一日遊 Plitvice Lakes Day Trip</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span class="editable-field" contenteditable="true">Zagreb ➔ Plitvice Lakes ➔ Zagreb | 大自然洗滌心靈之旅</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 行程流線開始 -->
+            <div class="relative pl-6 border-l-2 border-dashed border-slate-300 ml-4 space-y-8">
+
+                <!-- 1. 晨間準備：執細行李 -->
+                <div class="relative bg-amber-50/60 rounded-2xl p-5 shadow-sm border border-amber-200">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-amber-800 uppercase tracking-wider bg-amber-100 px-2.5 py-1 rounded-md">
+                            🎒 晨間準備 Morning Prep
+                        </span>
+                        <span class="text-xs font-medium text-amber-900 bg-amber-200 px-2 py-0.5 rounded">輕裝出發</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2">
+                        <i data-lucide="briefcase" class="w-5 h-5 text-amber-600"></i>
+                        <span class="editable-field" contenteditable="true">執細行李 (Pack Light Daypack)</span>
+                    </h3>
+                    
+                    <p class="text-sm text-slate-600 mt-2 editable-field" contenteditable="true">
+                        今日為十六湖一日遊，晚上仍返回薩格勒布 Hotel iNova 住宿。<strong>大件行李留在酒店房間</strong>，只需攜帶隨身雙肩包（細行李）出發。
+                    </p>
+
+                    <!-- 建議攜帶清單 -->
+                    <div class="mt-3 p-3 bg-white rounded-lg border border-amber-100 text-xs text-slate-600 space-y-1">
+                        <p class="font-bold text-amber-800">🎒 建議攜帶物品清單：</p>
+                        <ul class="list-disc list-inside space-y-0.5">
+                            <li>十六湖電子門票（建議下載 PDF 或列印紙本）</li>
+                            <li>防滑好走、防水的運動鞋或登山鞋</li>
+                            <li>防風防水外套 / 雨衣（山區天氣多變）</li>
+                            <li>保溫水樽、簡單乾糧 / 能量棒（園區內餐廳較少且貴）</li>
+                            <li>行動電源、相機、護照隨身攜帶</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">從酒店步行或搭電車前往薩格勒布巴士總站</span>
+                    </div>
+                </div>
+
+                <!-- 2. 去程交通：FlixBus -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-blue-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
+                            🚌 去程交通 Outbound Transit
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded" contenteditable="true">FlixBus</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">薩格勒布 ➔ 十六湖國家公園 (二號入口)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Zagreb+Bus+Station" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> 薩格勒布巴士站
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1 text-sm text-slate-600">
+                        <p>🕒 乘車時間：<span class="editable-field font-semibold text-blue-600" contenteditable="true">06:45 ➔ 09:00</span> (車程約 2 小時 15 分鐘)</p>
+                        <p>📍 上車地點：<span class="editable-field" contenteditable="true">Zagreb Bus Station (Autobusni Kolodvor Zagreb)</span></p>
+                        <p>📍 下車地點：<span class="editable-field" contenteditable="true">Plitvice Lakes National Park Entrance 2 (二號入口)</span></p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-transit-day2-go')" class="text-xs font-semibold text-slate-500 hover:text-blue-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-transit-day2-go" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            建議提前 15-20 分鐘抵達巴士站，並在月台螢幕確認 FlixBus 的具體停靠月台。車票可直接保存在手機中供司機掃描。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">下車後步行至 Entrance 2 售票處與入口</span>
+                    </div>
+                </div>
+
+                <!-- 3. 核心景點：十六湖國家公園 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-emerald-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-emerald-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-emerald-600 uppercase tracking-wider bg-emerald-50 px-2.5 py-1 rounded-md">
+                            🌲 核心景點 Highlight Spot
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">Entrance 2</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">普利特維采湖群國家公園 (十六湖公園)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Plitvice+Lakes+National+Park+Entrance+2" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <i data-lucide="map-pin" class="w-3 h-3"></i> Google Map
+                        </a>
+                    </h3>
+
+                    <!-- 園區與路線資訊 -->
+                    <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-3 text-xs bg-slate-50 p-3.5 rounded-xl border border-slate-100">
+                        <div>
+                            <span class="font-semibold text-slate-500 block">🗺️ 推薦路線 (Route)：</span>
+                            <span class="editable-field text-emerald-700 font-bold" contenteditable="true">H 路線 (Route H)</span>
+                        </div>
+                        <div>
+                            <span class="font-semibold text-slate-500 block">⏱️ 預計耗時 (Duration)：</span>
+                            <span class="editable-field text-slate-700 font-medium" contenteditable="true">4 至 6 小時 (4-6 Hours)</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <span class="font-semibold text-slate-700 block text-xs mb-1">🗺️ H 路線詳細走法說明：</span>
+                        <div class="editable-field" contenteditable="true">
+                            從<strong>二號入口 (Entrance 2)</strong> 進入後，先搭乘園區內的<strong>全景接駁車 (Panoramic Train)</strong> 抵達上湖區最頂端。隨後一路向下步行，沿途欣賞上湖區壯麗的湖泊與無數瀑布。接著，在 P2 碼頭搭乘<strong>電動船 (Electric Boat)</strong> 橫渡最大的 Kozjak 湖抵達 P3 碼頭（此處有大型休息區與洗手間，可在此享用午餐）。
+                            <br><br>
+                            午餐後，繼續向下游步行進入下湖區，穿過石灰岩峽谷，最後抵達明信片經典地標——<strong>大瀑布 (Veliki Slap)</strong>。遊覽完畢後，步行至一號出口附近的接駁車站，搭乘接駁車返回二號入口，完成完美的 H 路線環狀遊覽。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-spot-plitvice')" class="text-xs font-semibold text-slate-500 hover:text-emerald-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-spot-plitvice" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            1. 園區門票已包含接駁車與電動船費用，乘車/船時需出示門票掃描。
+                            <br>2. H 路線是由高往低走，比從 Entrance 1 出發的 F 路線更省力，非常適合拍照。
+                            <br>3. 請嚴格遵守園區規定，不可離開木棧道，亦不可下水游泳。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">提前 20 分鐘抵達 Entrance 2 巴士站候車</span>
+                    </div>
+                </div>
+
+                <!-- 4. 回程交通：FlixBus -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-blue-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
+                            🚌 回程交通 Return Transit
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded" contenteditable="true">FlixBus</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 editable-field" contenteditable="true">
+                        十六湖國家公園 (二號入口) ➔ 薩格勒布
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1 text-sm text-slate-600">
+                        <p>🕒 乘車時間：<span class="editable-field font-semibold text-blue-600" contenteditable="true">17:15 ➔ 19:05</span> (車程約 1 小時 50 分鐘)</p>
+                        <p>📍 上車地點：<span class="editable-field" contenteditable="true">Plitvice Lakes Entrance 2 巴士候車亭</span></p>
+                        <p>📍 下車地點：<span class="editable-field" contenteditable="true">Zagreb Bus Station (Autobusni Kolodvor Zagreb)</span></p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <div class="mt-4 pt-3 border-t border-slate-100">
+                        <button onclick="toggleMemo('memo-transit-day2-back')" class="text-xs font-semibold text-slate-500 hover:text-blue-600 flex items-center gap-1">
+                            <i data-lucide="chevron-down" class="w-3.5 h-3.5"></i> 備註 / 備忘錄 (點擊展開/折疊)
+                        </button>
+                        <div id="memo-transit-day2-back" class="hidden mt-2 p-3 bg-slate-50 rounded-lg text-xs text-slate-600 border border-slate-100 editable-field" contenteditable="true">
+                            十六湖的巴士站為路邊的木製候車亭，跨國或長途巴士有時會因路況稍微延誤，請在現場耐心等候並核對車頭的 FlixBus 標誌與目的地。
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚋 <span class="editable-field" contenteditable="true">搭乘電車返回酒店或在市區享用晚餐</span>
+                    </div>
+                </div>
+
+                <!-- 5. 晚餐與休息 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-slate-400 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-slate-600 uppercase tracking-wider bg-slate-100 px-2.5 py-1 rounded-md">
+                            🍽️ 晚間行程 Evening
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded">美食與休息</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 editable-field" contenteditable="true">
+                        返回薩格勒布 ➔ 晚餐與休息
+                    </h3>
+                    
+                    <p class="text-sm text-slate-600 mt-2 editable-field" contenteditable="true">
+                        回到薩格勒布後，可在巴士站附近或搭電車回到舊城區享用一頓豐盛的克羅地亞傳統晚餐（如烤肉 Strukli 或 Pekas），隨後返回 <strong>Hotel iNova</strong> 休息，為明日前往杜布羅夫尼克（Dubrovnik）做好準備。
+                    </p>
+                </div>
+
+            </div>
+            <!-- 行程流線結束 -->
+            
+        </div>
+
+        <!-- ================= DAY 3 行程 (Oct 6) ================= -->
+        <div id="content-day3" class="tab-content hidden space-y-6">
+            
+            <!-- 日期標題 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-blue-900 text-white font-bold rounded-xl px-4 py-3 text-center min-w-[70px]">
+                    <div class="text-xs uppercase tracking-wider">Day</div>
+                    <div class="text-2xl">03</div>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="editable-field" contenteditable="true">Oct 6 (二) 薩格勒布 ➔ 杜布羅夫尼克 Zagreb ➔ Dubrovnik</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span class="editable-field" contenteditable="true">飛往君臨城，探訪亞得里亞海之珠</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 行程流線開始 -->
+            <div class="relative pl-6 border-l-2 border-dashed border-slate-300 ml-4 space-y-8">
+
+                <!-- 1. 晨間 Checkout 與寄行李 -->
+                <div class="relative bg-amber-50/60 rounded-2xl p-5 shadow-sm border border-amber-200">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-amber-800 uppercase tracking-wider bg-amber-100 px-2.5 py-1 rounded-md">
+                            🔑 退房與行李 Checkout & Luggage
+                        </span>
+                        <span class="text-xs font-medium text-amber-900 bg-amber-200 px-2 py-0.5 rounded">08:00</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">酒店辦理 Checkout</span>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-2 text-sm text-slate-600">
+                        <p>🕒 時間：<span class="font-semibold text-slate-800">08:00</span></p>
+                        <p>🎒 行李安排：<span class="editable-field font-semibold text-amber-800" contenteditable="true">大行李寄放於薩格勒布酒店</span>。今日僅攜帶隨身行李飛往杜布羅夫尼克，輕裝出發！</p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-amber-200/60 pt-3 group">
+                        <summary class="text-xs font-semibold text-amber-800 cursor-pointer list-none flex items-center gap-1 select-none hover:text-amber-900">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 建議在辦理退房時，與櫃檯再次確認大行李寄放的期限與安全保障。</p>
+                            <p>• 隨身小背包請備妥今日所需的貴重物品、護照、機票憑證及薄外套（飛機上或海邊傍晚可能較涼）。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">前往薩格勒布巴士總站</span>
+                    </div>
+                </div>
+
+                <!-- 2. 機場接駁專線 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-blue-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
+                            🚌 機場巴士 Airport Shuttle
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded" contenteditable="true">Pleso Prijevoz</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">搭乘 Pleso Prijevoz 機場專線</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Autobusni+Kolodvor+Zagreb" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1 text-sm text-slate-600">
+                        <p>📍 上車地點：<span class="editable-field" contenteditable="true">薩格勒布巴士總站（Autobusni Kolodvor Zagreb）</span></p>
+                        <p>🕒 發車頻率：<span class="editable-field" contenteditable="true">每 30 分鐘一班（車程約 30-40 分鐘）</span></p>
+                        <p>ℹ️ 建議乘車時間：<span class="editable-field font-semibold text-blue-600" contenteditable="true">建議搭乘 08:30 或 09:00 班次</span>，以確保 09:40 前抵達機場辦理登機。</p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-blue-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-blue-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 購票方式：可直接上車向司機購買現金票，或提早於官網訂票。票價約為 8-10 歐元。</p>
+                            <p>• 巴士站內有清楚的「Airport Bus」指引牌，通常停靠在專屬月台，上車前可向司機再次確認「Airport?」。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        ✈️ <span class="editable-field" contenteditable="true">抵達薩格勒布機場 (ZAG) 辦理登機與安檢</span>
+                    </div>
+                </div>
+
+                <!-- 3. 境內航班 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-indigo-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-md">
+                            ✈️ 境內航班 Domestic Flight
+                        </span>
+                        <span class="text-xs font-medium text-indigo-700 bg-indigo-100 px-2 py-0.5 rounded" contenteditable="true">Croatia Airlines</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">薩格勒布 ➔ 杜布羅夫尼克 (ZAG ➔ DBV)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Zagreb+Airport" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> ZAG 機場地圖
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1.5 text-sm text-slate-600">
+                        <p>✈️ 航班號：<span class="editable-field font-bold text-slate-800" contenteditable="true">OU660</span></p>
+                        <p>🕒 飛行時間：<span class="editable-field font-semibold text-indigo-600" contenteditable="true">11:20 ➔ 12:20</span> (航程 1 小時)</p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 克羅地亞航空為星空聯盟成員，可提早 24 小時於線上辦理報到（Web Check-in）以節省現場排隊時間。</p>
+                            <p>• 國內線安檢速度通常較快，但仍建議提早 1.5 至 2 小時抵達機場。</p>
+                            <p>• 💡 <strong>選位秘訣：</strong> 建議選擇<strong>左側靠窗（A排）</strong>，飛機降落杜布羅夫尼克前有機會從空中俯瞰壯麗的亞得里亞海海岸線與紅屋頂古城！</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚌 <span class="editable-field" contenteditable="true">抵達杜布羅夫尼克機場 (DBV)</span>
+                    </div>
+                </div>
+
+                <!-- 4. 杜布羅夫尼克機場巴士 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-blue-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
+                            🚌 機場聯外巴士 Airport Bus
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded" contenteditable="true">Platanus Bus</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">搭乘機場接駁巴士前往舊城區</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Dubrovnik+Airport" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> DBV 機場地圖
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1 text-sm text-slate-600">
+                        <p>🚌 營運巴士：<span class="editable-field" contenteditable="true">Platanus 機場巴士（配合航班抵達時間發車）</span></p>
+                        <p>📍 下車地點：<span class="editable-field font-semibold text-slate-800" contenteditable="true">舊城區派勒門 (Pile Gate)</span> (車程約 30 分鐘)</p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-blue-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-blue-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 購票：出行李大廳後右側有 Platanus 售票櫃檯，亦可直接向司機購票或線上購買。單程約 10 歐元。</p>
+                            <p>• 班次：巴士發車時間非常有彈性，通常在每個航班落地、旅客拿到行李後的 20-30 分鐘內發車，不用擔心趕不上。</p>
+                            <p>• 路線：巴士會先抵達舊城區的 <strong>Pile Gate（派勒門）</strong>，隨後前往巴士總站（Gruž Port）。請在第一站 Pile Gate 下車！</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">下車後步行進入舊城區前往民宿</span>
+                    </div>
+                </div>
+
+                <!-- 5. 民宿 Check-in -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-amber-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-amber-600 uppercase tracking-wider bg-amber-50 px-2.5 py-1 rounded-md">
+                            🏡 民宿住宿 Accommodation
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-100 px-2 py-0.5 rounded" contenteditable="true">Agoda 預訂</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">四風三號別墅民宿 (Villa Four Winds III)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Villa+Four+Winds+III+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1 text-sm text-slate-600">
+                        <p>📍 地址：<span class="editable-field" contenteditable="true">舊城區內（鄰近主要街道，位置極佳）</span></p>
+                        <p>🔑 Check-in：<span class="editable-field font-semibold" contenteditable="true">13:30 - 14:00 (辦理入住、放置隨身行李、稍作休息)</span></p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-amber-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-amber-700 cursor-pointer list-none flex items-center gap-1 select-none hover:text-amber-800">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• ⚠️ <strong>重要提示：</strong> 舊城區內全為石板路且階梯極多，禁止車輛進入。這也是為什麼建議將大行李留在薩格勒布、只帶隨身行李的原因，否則搬運大箱子走石階會非常吃力！</p>
+                            <p>• 請提前透過 Agoda 訊息或 Email 告知民宿主人預計抵達時間，以便順利取得鑰匙或密碼鎖說明。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">開啟古城區精華景點步行遊覽（最順路路線）</span>
+                    </div>
+                </div>
+
+                <!-- 6. 景點：派勒門 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 01 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">派勒門 (Pile Gate)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Pile+Gate+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            杜布羅夫尼克古城的主要入口。這座雄偉的文藝復興時期城門建於1537年，外城門上方立有守護神聖布萊斯（St. Blaise）的雕像。穿過石橋與木製吊橋，便能正式踏入這座保存完好的中世紀古城。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 🎬 <strong>影迷朝聖：</strong> 派勒門是《權力遊戲》中君臨城（King's Landing）多個場景的取景地，包括暴民向喬佛里國王扔泥巴、以及珊莎與小指頭密謀逃跑的碼頭入口。</p>
+                            <p>• 拍照建議：下午的光線非常適合拍攝城門外的石橋與護城河花園。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">穿過城門即達</span>
+                    </div>
+                </div>
+
+                <!-- 7. 景點：大奧諾佛里奧水池 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 02 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">大奧諾佛里奧水池 (Big Onofrio Fountains)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Big+Onofrio+Fountain+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            建於1438年的多邊形宏偉水池，是中世紀供水系統的重要部分。水池四周雕刻有16個精美的人臉或動物面具出水口，至今仍流著清涼甘甜、可直接飲用的山泉水，是遊客消暑與裝水的重要地標。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 💧 <strong>實用貼士：</strong> 這裡的水源自 12 公里外的 Rijeka Dubrovačka 河，水質極佳，完全可以直接飲用。建議攜帶環保水瓶在此裝滿水，省下在古城買瓶裝水的費用（古城內物價偏高）。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">水池正對面</span>
+                    </div>
+                </div>
+
+                <!-- 8. 景點：聖薩維爾教堂 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 03 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">聖薩維爾教堂 (St. Saviour’s Church)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=St.+Saviour+Church+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            這座精緻的小教堂建於1520年，旨在感謝聖恩讓城市免受地震之災。它是城內極少數在1667年毀滅性大地震中完全倖存下來的文藝復興建築之一，保留了最純粹的早期文藝復興立面。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 歷史背景：1667 年的大地震摧毀了古城將近四分之三的建築，這座教堂卻毫髮無傷。因此，它是研究當地大地震前「文藝復興時期」建築風格的極少數珍貴樣本。</p>
+                            <p>• 現今用途：目前經常作為小型音樂會、藝術展覽的舉辦場地。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">緊鄰聖薩維爾教堂</span>
+                    </div>
+                </div>
+
+                <!-- 9. 景點：方濟各教堂和修道院 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 04 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">09:00 - 18:00</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">方濟各教堂和修道院 (Franciscan Church and Monastery)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Franciscan+Church+and+Monastery+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            這座宏偉的羅馬哥德式修道院建於14世紀。館內最著名的是創立於1317年的<strong>老藥房（Old Pharmacy）</strong>，它是歐洲連續營運至今最古老的藥房之一。院內的雙層迴廊雕刻極其精美，充滿寧靜的中世紀氛圍。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 🛍️ <strong>必買推薦：</strong> 老藥房至今仍在使用中世紀流傳下來的古法草本配方調配保養品。其最熱銷的<strong>玫瑰面霜 (Rose Cream)</strong>、薰衣草乳液和金盞花膏，是非常受歡迎且極具歷史意義的特色伴手禮。</p>
+                            <p>• 參觀重點：修道院內部的精美中庭迴廊，其柱頭上雕刻著各種奇珍異獸與人面像，非常值得細細觀賞。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步入主幹道</span>
+                    </div>
+                </div>
+
+                <!-- 10. 景點：史特拉敦大道 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 05 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">史特拉敦大道 (Stradun Street)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Stradun+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            貫穿古城東西向的中央主街，長約300米。街道兩側鋪滿了光滑如鏡的石灰岩石磚，在陽光與夜色下閃閃發亮。兩旁林立著巴洛克風格的石造建築、咖啡廳與紀念品店，是古城內最熱鬧、最適合漫步與觀察行人的地方。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 歷史典故：這條街在 11 世紀前原本是一條分隔島嶼與陸地的「水道」，後來被填平建街。1667 年地震後，兩側建築被統一改建為整齊劃一的巴洛克風格，一樓為商鋪，二樓為住宅。</p>
+                            <p>• ⚠️ <strong>防滑安全：</strong> 石磚因數百年來千萬遊客的踩踏磨損，表面光滑如鏡，<strong>下雨時會非常濕滑</strong>，步行時請務必穿著防滑底的舒適鞋子。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">沿大道步行至東側盡頭廣場</span>
+                    </div>
+                </div>
+
+                <!-- 11. 景點：斯彭扎宮 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 06 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">09:00 - 15:00</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">斯彭扎宮 (Sponza Palace)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Sponza+Palace+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            建於16世紀，完美融合了哥德式與文藝復興式風格。歷史上曾作為海關、造幣廠、國庫與學校使用，現為國家檔案館，保存著拉古薩共和國時期的珍規文獻。中庭的拱廊建築極具藝術價值。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 建築亮點：它是少數在 1667 年地震中倖存的公共建築。其一樓是優雅的文藝復興式文藝拱廊，二樓則是精緻的哥德式窗戶，完美展現了過渡時期的建築美學。</p>
+                            <p>• 內部看點：館內設有「克羅地亞獨立戰爭陣亡將士紀念室」，展示了 1991-1992 年圍城戰役中守護這座城市的年輕人照片，非常令人動容。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">廣場中央</span>
+                    </div>
+                </div>
+
+                <!-- 12. 景點：奧蘭多石柱 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 07 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">奧蘭多石柱 (Orlando's Column)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Orlando+Column+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            立於盧扎廣場中央的石雕柱，刻有中世紀傳奇騎士奧蘭多（羅蘭）手持寶劍的英姿。這根石柱自1418年起便是拉古薩共和國自由與獨立的象徵，柱上的「奧蘭多前臂長度（51.2公分）」曾作為古城內標準的長度測量單位。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 趣聞歷史：在中世紀，商人們會來到這根石柱前，利用奧蘭多右前臂雕刻的長度（稱為 Dubrovnik ell）來丈量布料與貨物，以確保交易公平，是當時的「官方公制度量衡」。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">石柱旁</span>
+                    </div>
+                </div>
+
+                <!-- 13. 景點：馬林·德爾日奇紀念碑 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 08 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">馬林·德爾日奇紀念碑 (Marin Drzic Monument)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Marin+Drzic+Monument+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            紀念克羅地亞文藝復興時期最偉大的劇作家與喜劇大師馬林·德爾日奇（Marin Držić）的青銅雕像。據當地傳說，摸一摸雕像那被遊客擦得閃閃發亮的金色鼻子，能為旅程帶來好運。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 💡 <strong>拍照儀式感：</strong> 走過去時別忘了摸摸他的鼻子合照一張！因為無數旅客的觸摸，雕像的鼻子、膝蓋和手指都已經被磨得金光閃閃，在深色青銅中格外顯眼。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">廣場南側</span>
+                    </div>
+                </div>
+
+                <!-- 14. 景點：聖布萊斯教堂 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 09 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">08:00-12:00, 16:30-19:00</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">聖布萊斯教堂 (Saint Blaise Church)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Saint+Blaise+Church+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            這座華麗的巴洛克風格教堂建於1715年，專為供奉城鎮守護神聖布萊斯（St. Blaise）而建。祭壇上保存著一尊15世紀鍍金白銀的聖布萊斯雕像，他手中捧著1667年大地震前的杜布羅夫尼克城市模型，極具歷史研究價值。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 歷史典故：原址上的羅曼式教堂在 1706 年的大火中燒毀，但那尊白銀聖布萊斯雕像卻奇蹟般地在熊熊烈火中完好無損。這被市民視為神蹟，並將其供奉在新教堂的黃金祭壇中央。</p>
+                            <p>• 參觀禮儀：進入教堂內部參觀請保持安靜，並注意服裝儀容（避免過度暴露的無袖或超短褲）。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行約 1 分鐘</span>
+                    </div>
+                </div>
+
+                <!-- 15. 景點：總督府 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 10 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">09:00 - 18:00</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">總督府 (Rector’s Palace)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rector's+Palace+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            曾是拉古薩共和國總督的官邸與政府所在地。這座建築融合了哥德式、文藝復興與巴洛克風格，中庭優雅的雙層拱廊常作為古典音樂會的演出場地。現為文化歷史博物館，展示共和國時期的家具、硬幣與武器。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 🎬 <strong>影迷朝聖：</strong> 總督府優雅的巴洛克式中庭與階梯，在《權力遊戲》第二季中作為香料之王（Spice King）在魁爾斯（Qarth）的宮殿取景地。</p>
+                            <p>• 趣味歷史：拉古薩共和國為了防止獨裁，規定總督的任期只有「一個月」，且任期內除了公務外不得離開宮殿，形同精美的「一個月軟禁」。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行約 1 分鐘</span>
+                    </div>
+                </div>
+
+                <!-- 16. 景點：杜布羅夫尼克主教座堂 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 11 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">08:00 - 19:00</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">杜布羅夫尼克主教座堂 (Dubrovnik Cathedral)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Dubrovnik+Cathedral" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            正式名稱為「聖母升天主教座堂」，是一座宏偉的巴洛克式大教堂。教堂珍寶館內收藏有極其珍貴的聖布萊斯黃金遺骨匣，以及大師提香（Titian）的祭壇畫《聖母升天》。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 傳奇歷史：相傳這座教堂最初是由英格蘭國王「獅心王理查」資助建造的。他在 1192 年十字軍東征回程中遭遇海難，在杜布羅夫尼克附近的洛克魯姆島奇蹟生還，為履行對上帝的誓言而捐資興建了這座大教堂。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行約 2 分鐘</span>
+                    </div>
+                </div>
+
+                <!-- 17. 景點：耶穌會樓梯 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 12 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">耶穌會樓梯 (Jesuit Stairs)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Jesuit+Stairs+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            這座優雅的巴洛克式石階仿照羅馬西班牙階梯設計。它因作為美劇《權力遊戲》（Game of Thrones）中瑟曦太后「恥辱之路（Walk of Shame）」的拍攝取景地而名聲大噪，是影迷不容錯過的朝聖熱點。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 🎬 <strong>經典台詞：</strong> 站在石階頂端，腦海中彷彿能聽到那句經典的「Shame! Shame! (*🔔鈴聲)」。</p>
+                            <p>• 拍照建議：因為這裡是古城內最熱門的拍照點之一，白天通常擠滿遊客。若想拍出空無一人的大片感，建議明天清晨 07:00 左右前來拍攝。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行前往海濱港口</span>
+                    </div>
+                </div>
+
+                <!-- 18. 景點：舊港與海鮮餐廳 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 13 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-amber-700 bg-amber-50 px-2 py-0.5 rounded" contenteditable="true">晚餐推薦</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">舊港 (Old Port) 及海鮮餐廳</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Old+Port+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            古城東側的歷史港口，曾是拉古薩共和國海上貿易的樞紐。如今這裡停滿了遊艇與觀光船，岸邊開有多家高水準的海鮮餐廳（如著名的 Lokanda Peskarija），可在此一邊欣賞港灣夜景，一邊享用墨魚汁燉飯與新鮮烤魚。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 🍽️ <strong>美食推薦：</strong> 推薦港口旁的 <strong>Lokanda Peskarija</strong> 餐廳，其海鮮拼盤、黑米燉飯（Crni Rižot）與炸花枝圈分量充足且味道鮮美，坐在戶外座位區用餐氣氛極佳。</p>
+                            <p>• 傍晚氛圍：隨著太陽西下，港口周邊的石牆與路燈亮起，倒映在深藍的海水中，非常浪漫。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">沿著防波堤散步</span>
+                    </div>
+                </div>
+
+                <!-- 19. 景點：Porporela 防波堤 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 景點 14 Sightseeing
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">波波雷拉防波堤 (Porporela)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Porporela+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            位於舊港聖約翰堡壘（St. John Fort）下方的著名防波堤。這裡直面壯闊的亞得里亞海與對岸的洛克魯姆島（Lokrum Island）。傍晚時分，這裡是當地人與遊客散步、吹海風、欣賞絕美日落與古城夜景的絕佳祕境。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• 💡 <strong>完美收尾：</strong> 吃飽飯後，沿著這條防波堤一直走到盡頭的紅色燈塔。坐在石椅上，一邊聽著海浪拍打石牆的聲音，一邊回望整座亮起溫暖黃光的古城牆，這絕對是克羅地亞旅程中最令人難忘的寧靜時刻之一。</p>
+                        </div>
+                    </details>
+                </div>
+
+            </div>
+            <!-- 行程流線結束 -->
+
+        </div>
+
+        <!-- ================= DAY 4 行程 (Oct 7) ================= -->
+        <div id="content-day4" class="tab-content hidden space-y-6">
+            
+            <!-- 日期標題 -->
+            <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-start gap-4">
+                <div class="bg-blue-900 text-white font-bold rounded-xl px-4 py-3 text-center min-w-[70px]">
+                    <div class="text-xs uppercase tracking-wider">Day</div>
+                    <div class="text-2xl">04</div>
+                </div>
+                <div>
+                    <h2 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                        <span class="editable-field" contenteditable="true">Oct 7 (三) 杜布羅夫尼克 ➔ 征服君臨城牆與日落纜車</span>
+                    </h2>
+                    <p class="text-slate-500 text-sm mt-1">
+                        <span class="editable-field" contenteditable="true">使用 Dubrovnik Pass 暢遊古城精華，登高俯瞰紅屋頂與蔚藍海洋</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 行程流線開始 -->
+            <div class="relative pl-6 border-l-2 border-dashed border-slate-300 ml-4 space-y-8">
+
+                <!-- 1. 晨間準備與購買/啟用 Dubrovnik Pass -->
+                <div class="relative bg-amber-50/60 rounded-2xl p-5 shadow-sm border border-amber-200">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-amber-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-amber-800 uppercase tracking-wider bg-amber-100 px-2.5 py-1 rounded-md">
+                            🎫 票券準備 Ticket Info
+                        </span>
+                        <span class="text-xs font-medium text-amber-900 bg-amber-200 px-2 py-0.5 rounded">07:45</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">啟用 Dubrovnik Pass（一日通行證）</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Pile+Gate+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Pile Gate 地圖
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-2 text-sm text-slate-600">
+                        <p>🕒 建議時間：<span class="font-semibold text-slate-800">07:45 抵達登城口準備</span></p>
+                        <p>💡 重點提示：<span class="editable-field font-semibold text-amber-800" contenteditable="true">今日行程核心為 Dubrovnik Pass</span>。單買城牆門票與一日 Pass 價格幾乎相同，使用 Pass 還能免費進入多個博物館與修道院，極度划算！</p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-amber-200/60 pt-3 group">
+                        <summary class="text-xs font-semibold text-amber-800 cursor-pointer list-none flex items-center gap-1 select-none hover:text-amber-900">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• <strong>如何購買：</strong> 建議提前在官網購買電子版 Dubrovnik Pass，並保存在手機中。現場登城時直接出示 QR Code 掃描即可啟用。</p>
+                            <p>• <strong>啟用機制：</strong> Pass 的 24 小時時效是從「第一次在景點掃描（通常是城牆）」開始計算，因此今天早上 08:00 啟用，可一直用到明天早上 08:00。</p>
+                            <p>• <strong>裝備建議：</strong> 登城牆前請務必準備好：防曬帽、太陽眼鏡、防曬乳、充足的飲用水（城牆上物價極高）以及一雙極度舒適好走的運動鞋。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行前往 Pile Gate 登城口</span>
+                    </div>
+                </div>
+
+                <!-- 2. 上午重頭戲：古城牆 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-blue-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-blue-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-blue-600 uppercase tracking-wider bg-blue-50 px-2.5 py-1 rounded-md">
+                            🏰 經典地標 City Walls
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">Pass 免費 (原價 €35)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">杜布羅夫尼克古城牆 (City Walls)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=City+Walls+Dubrovnik+Main+Entrance" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map 登城口
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1.5 text-sm text-slate-600">
+                        <p>🕒 建議時間：<span class="font-semibold text-blue-600">08:00 - 12:00</span>（務必 08:00 準時登城）</p>
+                        <p>🚶 路線規劃：<span class="editable-field font-semibold text-slate-800" contenteditable="true">由派勒門 (Pile Gate) 入口登城，遵循單向「逆時針」方向步行環繞一圈</span>（全長約 2 公里）。</p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-blue-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-blue-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-2 pl-4 leading-relaxed">
+                            <p>• ☀️ <strong>為什麼要 8 點前到？</strong> 10 點過後，大型郵輪的團客會排山倒海湧入，且接近中午時城牆上完全沒有遮蔽物，陽光會非常曝曬。08:00 登城不僅能享受清晨微涼的微風，還能避開人潮，拍出空曠的古城與海景大片！</p>
+                            <p>• 📸 <strong>拍照與觀景精華：</strong>
+                                <br>1. <strong>明闕塔 (Minčeta Tower)：</strong> 城牆最高點，俯瞰整片紅屋頂的最佳視角。
+                                <br>2. <strong>聖約翰堡壘 (St. John's Fortress)：</strong> 俯瞰舊港與防波堤的絕佳轉角。
+                                <br>3. <strong>海景路段：</strong> 城牆南側直接臨海，湛藍的亞得里亞海與白色浪花就在腳下。
+                            </p>
+                            <p>• ⚠️ <strong>注意事項：</strong> 城牆階梯陡峭，部分路段較窄，請靠右行走。中途有幾間小咖啡店可以買飲料或上廁所，但價格偏貴，建議自備水與小點心補給。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🍴 <span class="editable-field" contenteditable="true">午餐時間：下城牆後於古城內享用午餐與冰淇淋稍微休息</span>
+                    </div>
+                </div>
+
+                <!-- 3. 下午 Pass 景點 01：方濟各教堂和修道院 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 Pass 景點 01 Franciscan Monastery
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">Pass 免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">方濟各教堂和修道院 (Franciscan Church and Monastery)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Franciscan+Church+and+Monastery+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            🕒 建議時間：<span class="font-semibold text-slate-800">13:30 - 14:15</span>。位於 Pile Gate 旁，下城牆後順路首站。這裡擁有歐洲最古老且仍在營業的藥房（創立於1317年），以及極具禪意的中世紀雙層迴廊中庭。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• <strong>昨日錯過今日補齊：</strong> 若昨日因時間關係未能入內參觀，今天使用 Pass 可以免費進入修道院與博物館區域。</p>
+                            <p>• <strong>必看重點：</strong> 博物館內展示了中世紀調藥的器具、珍貴手稿。迴廊柱頭上雕刻著各種奇特的人面與動植物，中庭花園種滿了橘子樹與藥草，非常消暑寧靜。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">沿著主街步行約 3 分鐘</span>
+                    </div>
+                </div>
+
+                <!-- 4. 下午 Pass 景點 02：總督府 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 Pass 景點 02 Rector's Palace
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">Pass 免費 (原價 €15)</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">總督府 (Rector’s Palace)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Rector's+Palace+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            🕒 建議時間：<span class="font-semibold text-slate-800">14:30 - 15:15</span>。昔日拉古薩共和國的權力核心。這座精美的哥德-文藝復興式宮殿如今是歷史博物館，展示著古老的地圖、武器、法庭與地下監獄。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• <strong>參觀看點：</strong> 走進中庭，可以欣賞到極具層次感的拱廊與宏偉的石造階梯（《權力遊戲》中魁爾斯香料之王宮殿的取景地）。</p>
+                            <p>• <strong>冷知識：</strong> 宮殿內有一尊米海·普拉查特（Miho Pracat）的半身像，他是拉古薩歷史上唯一獲得共和國立碑紀念的平民，因為他曾將所有財富捐獻給國家。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">步行前往古城東北角</span>
+                    </div>
+                </div>
+
+                <!-- 5. 下午 Pass 景點 03：多明尼克修道院 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-md">
+                            📍 Pass 景點 03 Dominican Monastery
+                        </span>
+                        <span class="text-xs font-medium text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded" contenteditable="true">Pass 免費</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">多明尼克修道院 (Dominican Monastery)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Dominican+Monastery+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            🕒 開放時間：<span class="font-semibold text-slate-800">09:00 - 17:00</span>（建議 15:30 - 16:15 參觀）。這座建於14世紀的修道院外觀如同一座堅固的堡壘，內部卻隱藏著極其華麗的哥德-文藝復興式中庭迴廊，以及收藏有大量珍貴宗教畫作與手抄本的博物館。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• <strong>建築美學：</strong> 修道院中庭的拱門雕刻極其繁複精美，是古城內最具代表性的哥德式晚期傑作，非常適合拍攝充滿幾何線條美感的照片。</p>
+                            <p>• <strong>藝術珍藏：</strong> 博物館內收藏了 15-16 世紀「杜布羅夫尼克畫派」大師的傑作，包括尼古拉·博日達雷維奇（Nikola Božidarević）的祭壇畫，藝術價值極高。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">出 Buža Gate 城門，步行前往纜車站（約 5-8 分鐘）</span>
+                    </div>
+                </div>
+
+                <!-- 6. 下午黃昏：杜布羅夫尼克纜車 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-indigo-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-indigo-600 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider bg-indigo-50 px-2.5 py-1 rounded-md">
+                            🚡 黃昏絕景 Cable Car
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded" contenteditable="true">需自費（不含在 Pass 內）</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">杜布羅夫尼克纜車 ➔ 蘇拉德山頂 (Srd Hill)</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Dubrovnik+Cable+Car+Station" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map 纜車站
+                        </a>
+                    </h3>
+                    
+                    <div class="mt-3 space-y-1.5 text-sm text-slate-600">
+                        <p>🕒 建議搭乘時間：<span class="font-semibold text-indigo-600">日落前 1 小時（約 17:00 - 17:30 登頂，視當天日落時間調整）</span></p>
+                        <p>📍 纜車站位置：<span class="editable-field" contenteditable="true">位於古城牆外北側（從 Buža Gate 出城後沿指標上行即可抵達）</span></p>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-indigo-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-indigo-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-2 pl-4 leading-relaxed">
+                            <p>• 🎟️ <strong>購票提示：</strong> 纜車門票<strong>不包含</strong>在 Dubrovnik Pass 內，需現場或官網另外購票（來回票約 €27）。</p>
+                            <p>• 🌅 <strong>日落黃金時刻：</strong> 蘇拉德山頂（Srd Hill）是俯瞰杜布羅夫尼克「整座古城、蔚藍海岸與周邊群島」最完美的制高點。看著夕陽將整片亞得里亞海與紅屋頂染成金黃色、再漸變為粉紫色，是此生必看的絕美畫面！</p>
+                            <p>• 📸 <strong>拍照秘訣：</strong> 抵達山頂後，不要只待在纜車站展望台（有玻璃和鐵網阻擋）。往旁邊的白色十字架或碎石坡方向走，可以拍到完全無遮擋的古城全景大片。</p>
+                            <p>• 🧥 <strong>保暖提醒：</strong> 山頂風大，日落後氣溫會迅速下降，請務必攜帶防風薄外套。看完日落後下山的纜車排隊人潮較多，請耐心等候。</p>
+                        </div>
+                    </details>
+                </div>
+
+                <!-- 虛線連接器 -->
+                <div class="relative -ml-6 my-4 flex justify-center">
+                    <div class="bg-slate-100 hover:bg-blue-50 text-slate-600 hover:text-blue-700 text-xs px-4 py-1.5 rounded-full border border-slate-200 shadow-sm flex items-center gap-1 cursor-pointer transition-all">
+                        🚶 <span class="editable-field" contenteditable="true">搭乘纜車下山，返回古城區</span>
+                    </div>
+                </div>
+
+                <!-- 7. 晚間：古城夜遊與晚餐 -->
+                <div class="relative bg-white rounded-2xl p-5 shadow-sm border border-slate-100">
+                    <div class="absolute -left-[31px] top-6 w-4 h-4 rounded-full bg-slate-500 border-4 border-white shadow-sm"></div>
+                    
+                    <div class="flex justify-between items-start flex-wrap gap-2">
+                        <span class="text-xs font-bold text-slate-600 uppercase tracking-wider bg-slate-50 px-2.5 py-1 rounded-md">
+                            🌙 浪漫夜遊 Dinner & Night Walk
+                        </span>
+                        <span class="text-xs font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded">19:30</span>
+                    </div>
+
+                    <h3 class="text-lg font-bold text-slate-800 mt-3 flex items-center gap-2 flex-wrap">
+                        <span class="editable-field" contenteditable="true">古城巷弄晚餐與夜間漫步</span>
+                        <a href="https://www.google.com/maps/search/?api=1&query=Stradun+Dubrovnik" target="_blank" class="inline-flex items-center gap-1 text-xs bg-blue-50 hover:bg-blue-100 text-blue-600 px-2.5 py-1 rounded-full border border-blue-200 transition-all">
+                            <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg> Google Map 史特拉敦大道
+                        </a>
+                    </h3>
+
+                    <div class="mt-3 text-sm text-slate-600 leading-relaxed">
+                        <div class="editable-field" contenteditable="true">
+                            下山後回到古城。夜晚的史特拉敦大道（Stradun）在黃色街燈照耀下，光滑的石板路反射著溫暖的光芒，呈現與白天截然不同的浪漫氛圍。可選一家隱密巷弄中的克羅地亞小酒館（Konoba），享用當地的燉牛肉（Pašticada）或海鮮意粉。
+                        </div>
+                    </div>
+
+                    <!-- 折疊備忘錄 -->
+                    <details class="mt-4 border-t border-slate-100 pt-3 group">
+                        <summary class="text-xs font-semibold text-slate-600 cursor-pointer list-none flex items-center gap-1 select-none hover:text-slate-700">
+                            <span class="transition-transform duration-200 group-open:rotate-90">▶</span> 💡 展開/收合備忘錄
+                        </summary>
+                        <div class="mt-2 text-xs text-slate-600 space-y-1 pl-4 leading-relaxed">
+                            <p>• <strong>美食推薦：</strong> 尋找招牌掛有「Konoba」（意為傳統克羅地亞小酒館）的餐廳，這類餐廳通常隱藏在石階小巷中，氣氛溫馨，價格也比主街上的觀光餐廳親民。</p>
+                            <p>• <strong>完美句點：</strong> 晚餐後，推薦去買一球當地的義式冰淇淋（Gelato），漫步到舊港口或大奧諾佛里奧水池旁，靜靜享受君臨城迷人的夜色。</p>
+                        </div>
+                    </details>
+                </div>
+
+            </div>
+            <!-- 行程流線結束 -->
+
+        </div>
+
+        <div id="content-day5" class="tab-content hidden">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <p class="text-slate-500">📅 Day 5 (Oct 8) 斯普利特行程預留區域</p>
+            </div>
+        </div>
+
+        <div id="content-day6" class="tab-content hidden">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <p class="text-slate-500">📅 Day 6 (Oct 9) 札達爾行程預留區域</p>
+            </div>
+        </div>
+
+        <div id="content-day7" class="tab-content hidden">
+            <div class="bg-white p-8 rounded-2xl shadow-sm border border-slate-100 text-center">
+                <p class="text-slate-500">📅 Day 7+ 後續行程預留區域</p>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- 底部保存提示與操作按鈕 -->
+    <div class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-lg border border-slate-200 flex items-center gap-4 z-50">
+        <span class="text-xs text-slate-500 flex items-center gap-1">
+            <i data-lucide="info" class="w-4 h-4 text-blue-500"></i> 提示：所有文字皆可直接點擊修改
+        </span>
+        <button onclick="window.print()" class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-1 transition-all">
+            <i data-lucide="printer" class="w-3.5 h-3.5"></i> 列印 / 導出 PDF
+        </button>
+    </div>
+
+    <!-- JavaScript 交互邏輯 -->
+    <script>
+        // 初始化 Lucide 圖標
+        lucide.createIcons();
+
+        // Tab 切換邏輯
+        function switchTab(dayId) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.add('hidden');
+                content.classList.remove('block');
+            });
+            const targetContent = document.getElementById(`content-${dayId}`);
+            if (targetContent) {
+                targetContent.classList.remove('hidden');
+                targetContent.classList.add('block');
+            }
+
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('bg-blue-600', 'text-white', 'shadow-sm');
+                btn.classList.add('bg-slate-100', 'text-slate-600', 'hover:bg-slate-200');
+            });
+            const activeBtn = document.getElementById(`tab-${dayId}`);
+            if (activeBtn) {
+                activeBtn.classList.remove('bg-slate-100', 'text-slate-600', 'hover:bg-slate-200');
+                activeBtn.classList.add('bg-blue-600', 'text-white', 'shadow-sm');
+            }
+        }
+
+        // 折疊備忘錄邏輯
+        function toggleMemo(memoId) {
+            const memoDiv = document.getElementById(memoId);
+            if (memoDiv) {
+                memoDiv.classList.toggle('hidden');
+            }
+        }
+    </script>
+<!-- ================= 這裡加入：GitHub 同步設定彈出視窗 ================= -->
+    <div id="settingsModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm items-center justify-center z-[100] hidden" style="display: none;">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 shadow-2xl mx-4 relative text-slate-100">
+            
+            <!-- 關閉按鈕 -->
+            <button onclick="closeSettingsModal()" class="absolute top-4 right-4 text-slate-400 hover:text-white transition">
+                <i data-lucide="x" class="w-5 h-5"></i>
+            </button>
+
+            <!-- 標題 -->
+            <div class="flex items-center gap-2 mb-4">
+                <i data-lucide="settings" class="w-5 h-5 text-blue-400"></i>
+                <h2 class="text-lg font-bold text-slate-100">GitHub 同步設定</h2>
+            </div>
+            
+            <p class="text-slate-400 text-xs mb-5 leading-relaxed">
+                設定後，您的行程修改將可以直接同步備份到您的 GitHub 儲存庫。請確保您的 Token 具備 <code class="bg-slate-950 px-1.5 py-0.5 rounded text-blue-400 font-mono">repo</code> 權限。
+            </p>
+
+            <!-- 表單欄位 -->
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">GitHub 帳號名稱 (Username)</label>
+                    <input type="text" id="githubUsername" placeholder="例如：your-github-username" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">儲存庫名稱 (Repository)</label>
+                    <input type="text" id="githubRepo" placeholder="例如：europe-trip-2026" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-400 mb-1">個人存取權杖 (Personal Access Token / PAT)</label>
+                    <input type="password" id="githubToken" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxx" class="w-full bg-slate-950 border border-slate-800 rounded-lg px-3 py-2 text-slate-100 placeholder-slate-600 focus:outline-none focus:border-blue-500 text-sm">
+                </div>
+            </div>
+
+            <!-- 按鈕組 -->
+            <div class="flex gap-3 mt-6">
+                <button onclick="saveSettings()" class="flex-1 bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2 rounded-lg text-sm flex items-center justify-center gap-1.5 transition duration-200">
+                    <i data-lucide="save" class="w-4 h-4"></i> 儲存設定
+                </button>
+                <button onclick="testConnection()" class="flex-1 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-semibold py-2 rounded-lg text-sm flex items-center justify-center gap-1.5 transition duration-200">
+                    <i data-lucide="link" class="w-4 h-4"></i> 測試連接
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- ============================================================= -->
+<!-- ================= 這裡加入：GitHub 同步 JavaScript 邏輯 ================= -->
+<script>
+    // 1. 初始化：頁面載入時，載入已儲存的設定，並渲染 Lucide 圖示
+    document.addEventListener('DOMContentLoaded', () => {
+        // 從瀏覽器本地儲存 (localStorage) 讀取設定值
+        document.getElementById('githubUsername').value = localStorage.getItem('git_user') || '';
+        document.getElementById('githubRepo').value = localStorage.getItem('git_repo') || '';
+        document.getElementById('githubToken').value = localStorage.getItem('git_token') || '';
+        
+        // 重新渲染新加入的 Lucide 圖示
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+    });
+
+    // 2. 控制設定視窗的開啟與關閉
+    function openSettingsModal() {
+        const modal = document.getElementById('settingsModal');
+        modal.style.display = 'flex';
+        modal.classList.remove('hidden');
+    }
+
+    function closeSettingsModal() {
+        const modal = document.getElementById('settingsModal');
+        modal.style.display = 'none';
+        modal.classList.add('hidden');
+    }
+
+    // 3. 儲存設定
+    function saveSettings() {
+        const user = document.getElementById('githubUsername').value.trim();
+        const repo = document.getElementById('githubRepo').value.trim();
+        const token = document.getElementById('githubToken').value.trim();
+
+        if (!user || !repo || !token) {
+            alert('⚠️ 請完整填寫所有設定欄位！');
+            return;
+        }
+
+        localStorage.setItem('git_user', user);
+        localStorage.setItem('git_repo', repo);
+        localStorage.setItem('git_token', token);
+
+        alert('✅ 設定已成功儲存！');
+        closeSettingsModal();
+    }
+
+    // 4. 測試與 GitHub 儲存庫的連線
+    async function testConnection() {
+        const user = document.getElementById('githubUsername').value.trim();
+        const repo = document.getElementById('githubRepo').value.trim();
+        const token = document.getElementById('githubToken').value.trim();
+
+        if (!user || !repo || !token) {
+            alert('⚠️ 請先填寫所有欄位再進行測試！');
+            return;
+        }
+
+        const url = `https://api.github.com/repos/${user}/${repo}`;
+        
+        try {
+            const response = await fetch(url, {
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Accept': 'application/vnd.github.v3+json'
+                }
+            });
+
+            if (response.ok) {
+                alert('🎉 連接成功！您的 Token 與儲存庫設定完全正確。');
+            } else {
+                const errData = await response.json();
+                alert(`❌ 連接失敗：${errData.message || response.statusText}\n請檢查帳號、儲存庫名稱或 Token 是否正確，且 Token 是否擁有 repo 權限。`);
+            }
+        } catch (error) {
+            alert('❌ 網路請求失敗，請檢查您的網路連線。');
+        }
+    }
+
+    // 5. 核心功能：同步（上傳）當前網頁到 GitHub
+    async function syncToGithub() {
+        const user = localStorage.getItem('git_user');
+        const repo = localStorage.getItem('git_repo');
+        const token = localStorage.getItem('git_token');
+
+        if (!user || !repo || !token) {
+            alert('💡 請先點擊右側 ⚙️ 按鈕設定您的 GitHub 資訊！');
+            openSettingsModal();
+            return;
+        }
+
+        const btn = document.getElementById('btnSyncToGithub');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="w-4 h-4 animate-spin"></i> 同步中...';
+        btn.disabled = true;
+
+        // 複製當前的 HTML DOM，避免直接修改影響使用者畫面
+        const docClone = document.documentElement.cloneNode(true);
+        
+        // 確保備份的 HTML 中，設定視窗是處於隱藏狀態
+        const modalInClone = docClone.querySelector('#settingsModal');
+        if (modalInClone) {
+            modalInClone.style.display = 'none';
+            modalInClone.classList.add('hidden');
+        }
+
+        const fullHtml = '<!DOCTYPE html>\n' + docClone.outerHTML;
+        const path = 'index.html'; // 預設儲存為 index.html，可視需求修改
+        const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+
+        try {
+            // 獲取遠端檔案的 sha 值（如果檔案已存在，更新時必須提供 sha）
+            let sha = '';
+            const getRes = await fetch(url, {
+                headers: { 'Authorization': `token ${token}` }
+            });
+            
+            if (getRes.ok) {
+                const getData = await getRes.json();
+                sha = getData.sha;
+            }
+
+            // 將 HTML 轉為 UTF-8 Base64 編碼
+            const base64Content = btoa(unescape(encodeURIComponent(fullHtml)));
+
+            // 提交更新到 GitHub
+            const putRes = await fetch(url, {
+                method: 'PUT',
+                headers: {
+                    'Authorization': `token ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: `update: 行程表自動同步於 ${new Date().toLocaleString()}`,
+                    content: base64Content,
+                    sha: sha || undefined
+                })
+            });
+
+            if (putRes.ok) {
+                alert('🚀 同步成功！最新行程已成功備份至 GitHub。');
+            } else {
+                const errData = await putRes.json();
+                alert(`❌ 同步失敗：${errData.message}`);
+            }
+        } catch (error) {
+            console.error(error);
+            alert('❌ 同步過程中發生錯誤，請按 F12 查看主控台 (Console) 紀錄。');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+
+    // 6. 核心功能：從 GitHub 載入（下載）最新網頁
+    async function loadFromGithub() {
+        const user = localStorage.getItem('git_user');
+        const repo = localStorage.getItem('git_repo');
+        const token = localStorage.getItem('git_token');
+
+        if (!user || !repo || !token) {
+            alert('💡 請先點擊右側 ⚙️ 按鈕設定您的 GitHub 資訊！');
+            openSettingsModal();
+            return;
+        }
+
+        if (!confirm('⚠️ 載入將會覆蓋您目前網頁上未儲存的修改，確定要繼續嗎？')) {
+            return;
+        }
+
+        const btn = document.getElementById('btnLoadFromGithub');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="w-4 h-4 animate-spin"></i> 載入中...';
+        btn.disabled = true;
+
+        const path = 'index.html';
+        const url = `https://api.github.com/repos/${user}/${repo}/contents/${path}`;
+
+        try {
+            const response = await fetch(url, {
+                headers: { 'Authorization': `token ${token}` }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                const decodedHtml = decodeURIComponent(escape(atob(data.content)));
+                
+                // 覆蓋當前頁面
+                document.open();
+                document.write(decodedHtml);
+                document.close();
+                
+                alert('📥 成功從 GitHub 載入最新行程版本！');
+            } else {
+                alert('❌ 無法從 GitHub 獲取檔案，請確認該儲存庫中是否已存在 index.html。');
+            }
+        } catch (error) {
+            console.error(error);
+            alert('❌ 載入過程中發生錯誤。');
+        } finally {
+            btn.innerHTML = originalText;
+            btn.disabled = false;
+        }
+    }
+</script>
+<!-- ========================================================================= -->
+</body>
+
+
+</body>
+</html>
