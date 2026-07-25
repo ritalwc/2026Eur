@@ -1,0 +1,2532 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2026 歐洲三國之旅｜Day 5 杜布羅夫尼克 → 斯普利特</title>
+
+  <style>
+    :root {
+      --primary: #0f5f73;
+      --primary-dark: #083f4d;
+      --secondary: #d99000;
+      --accent: #e85d3f;
+      --green: #26845b;
+      --blue: #2d69c4;
+      --purple: #7157b7;
+      --light: #f4f8f8;
+      --warm: #fff8e8;
+      --border: #d8e3e5;
+      --text: #263238;
+      --muted: #64747a;
+      --danger: #b63a2f;
+      --shadow: 0 8px 24px rgba(18, 59, 70, 0.10);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at top right, rgba(217,144,0,0.10), transparent 24rem),
+        linear-gradient(180deg, #f8fbfb 0%, #eef5f5 100%);
+      color: var(--text);
+      font-family:
+        "Noto Sans TC",
+        "PingFang TC",
+        "Microsoft JhengHei",
+        Arial,
+        sans-serif;
+      line-height: 1.75;
+      word-break: break-word;
+    }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    button {
+      font: inherit;
+    }
+
+    .page {
+      width: min(1100px, calc(100% - 28px));
+      margin: 24px auto 60px;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 10px;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding: 12px 16px;
+      color: #ffffff;
+      background: rgba(8, 63, 77, 0.95);
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .topbar-title {
+      font-weight: 900;
+      letter-spacing: 0.04em;
+    }
+
+    .topbar-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .action-button {
+      border: 1px solid rgba(255,255,255,0.30);
+      border-radius: 10px;
+      padding: 8px 12px;
+      color: #ffffff;
+      background: rgba(255,255,255,0.12);
+      cursor: pointer;
+      font-weight: 800;
+    }
+
+    .action-button:hover {
+      background: rgba(255,255,255,0.22);
+    }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 34px;
+      color: #ffffff;
+      background:
+        linear-gradient(135deg, rgba(8,63,77,0.98), rgba(15,95,115,0.92)),
+        #0f5f73;
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero::after {
+      content: "05";
+      position: absolute;
+      right: 25px;
+      bottom: -45px;
+      color: rgba(255,255,255,0.09);
+      font-size: 13rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .eyebrow {
+      margin-bottom: 8px;
+      color: #ffd77e;
+      font-weight: 900;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      position: relative;
+      z-index: 1;
+      margin: 0 0 10px;
+      font-size: clamp(2rem, 5vw, 3.6rem);
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      position: relative;
+      z-index: 1;
+      margin: 0;
+      font-size: 1.08rem;
+      opacity: 0.96;
+    }
+
+    .day-strip {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 95px 1fr;
+      gap: 16px;
+      align-items: center;
+      margin-top: 26px;
+    }
+
+    .day-number {
+      display: grid;
+      place-items: center;
+      width: 84px;
+      height: 84px;
+      border: 2px solid rgba(255,255,255,0.45);
+      border-radius: 24px;
+      background: rgba(255,255,255,0.12);
+      font-size: 2rem;
+      font-weight: 900;
+    }
+
+    .day-info strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #ffd77e;
+      font-size: 1.2rem;
+    }
+
+    .status-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .status-card {
+      padding: 16px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      box-shadow: 0 4px 14px rgba(18,59,70,0.06);
+    }
+
+    .status-card strong {
+      display: block;
+      color: var(--primary);
+      font-size: 1.02rem;
+    }
+
+    .status-card span {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .important-box,
+    .ticket-box,
+    .budget-box,
+    .warning-box {
+      margin: 18px 0;
+      padding: 20px;
+      border-radius: 18px;
+    }
+
+    .important-box {
+      background: var(--warm);
+      border: 1px solid #efd28b;
+    }
+
+    .ticket-box {
+      color: #ffffff;
+      background: linear-gradient(135deg, #1f6b4d, #2b9368);
+      box-shadow: var(--shadow);
+    }
+
+    .budget-box {
+      background: #ffffff;
+      border: 2px solid #d7b04a;
+    }
+
+    .warning-box {
+      background: #fff0ed;
+      border: 1px solid #efb4a9;
+    }
+
+    .important-box h2,
+    .ticket-box h2,
+    .budget-box h2,
+    .warning-box h2 {
+      margin-top: 0;
+      line-height: 1.35;
+    }
+
+    .ticket-box a {
+      color: #fff0a8;
+    }
+
+    .ticket-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 18px;
+      margin-top: 16px;
+    }
+
+    .ticket-item {
+      padding: 12px;
+      background: rgba(255,255,255,0.12);
+      border-radius: 12px;
+    }
+
+    .ticket-label {
+      display: block;
+      color: #d9ffec;
+      font-size: 0.85rem;
+      font-weight: 800;
+    }
+
+    .ticket-value {
+      font-size: 1.05rem;
+      font-weight: 900;
+    }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 38px 0 16px;
+    }
+
+    .section-heading .icon {
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      width: 48px;
+      height: 48px;
+      border-radius: 15px;
+      color: #ffffff;
+      background: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .section-heading h2 {
+      margin: 0;
+      color: var(--primary-dark);
+      line-height: 1.3;
+    }
+
+    .section-heading p {
+      margin: 2px 0 0;
+      color: var(--muted);
+    }
+
+    .timeline {
+      position: relative;
+      margin-left: 18px;
+      padding-left: 28px;
+      border-left: 4px solid #b8d3d8;
+    }
+
+    .timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+    }
+
+    .timeline-item::before {
+      content: "";
+      position: absolute;
+      top: 24px;
+      left: -39px;
+      width: 17px;
+      height: 17px;
+      background: var(--secondary);
+      border: 4px solid #ffffff;
+      border-radius: 50%;
+      box-shadow: 0 0 0 2px var(--secondary);
+    }
+
+    .card {
+      overflow: hidden;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .card-header {
+      padding: 19px 22px;
+      color: #ffffff;
+      background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    }
+
+    .card-header.orange {
+      background: linear-gradient(135deg, #c17a00, #e29a16);
+    }
+
+    .card-header.green {
+      background: linear-gradient(135deg, #267455, #309d72);
+    }
+
+    .card-header.purple {
+      background: linear-gradient(135deg, #5b4697, #7b64c3);
+    }
+
+    .card-header.red {
+      background: linear-gradient(135deg, #a94334, #d6644e);
+    }
+
+    .time {
+      display: inline-block;
+      margin-bottom: 5px;
+      padding: 3px 10px;
+      color: #fff8cf;
+      background: rgba(255,255,255,0.15);
+      border-radius: 999px;
+      font-weight: 900;
+    }
+
+    .card-header h3 {
+      margin: 0;
+      font-size: 1.35rem;
+      line-height: 1.35;
+    }
+
+    .card-body {
+      padding: 22px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      background: #eaf3f5;
+      color: var(--primary-dark);
+      font-size: 0.88rem;
+      font-weight: 900;
+    }
+
+    .tag.free {
+      color: #176341;
+      background: #e7f6ee;
+    }
+
+    .tag.paid {
+      color: #8b5400;
+      background: #fff1cc;
+    }
+
+    .tag.solo {
+      color: #5b4697;
+      background: #eeeafd;
+    }
+
+    .tag.alert {
+      color: #a33127;
+      background: #ffe5e0;
+    }
+
+    .price-panel {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 14px;
+      align-items: center;
+      margin: 15px 0;
+      padding: 14px 16px;
+      background: #f7fafb;
+      border-left: 5px solid var(--secondary);
+      border-radius: 12px;
+    }
+
+    .price-title {
+      font-weight: 900;
+    }
+
+    .price-note {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .price {
+      color: #9b5d00;
+      font-size: 1.3rem;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .map-button,
+    .route-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      margin: 6px 6px 6px 0;
+      padding: 9px 13px;
+      border-radius: 10px;
+      font-weight: 900;
+    }
+
+    .map-button {
+      color: #ffffff;
+      background: var(--blue);
+    }
+
+    .route-button {
+      color: #ffffff;
+      background: var(--green);
+    }
+
+    .map-button:hover,
+    .route-button:hover {
+      color: #ffffff;
+      text-decoration: none;
+      filter: brightness(1.08);
+    }
+
+    .route-box {
+      margin: 18px 0 0;
+      padding: 16px;
+      background: #edf7f8;
+      border: 1px dashed #77aeb8;
+      border-radius: 14px;
+    }
+
+    .route-box strong {
+      color: var(--primary-dark);
+    }
+
+    .route-steps {
+      margin: 10px 0 0;
+      padding-left: 1.3rem;
+    }
+
+    .route-steps li {
+      margin-bottom: 5px;
+    }
+
+    .description p {
+      margin: 0 0 10px;
+    }
+
+    details {
+      margin-top: 16px;
+      background: #fafcfc;
+      border: 1px solid #dce7e9;
+      border-radius: 14px;
+    }
+
+    details[open] {
+      background: #ffffff;
+    }
+
+    summary {
+      padding: 13px 15px;
+      color: var(--primary);
+      cursor: pointer;
+      font-weight: 900;
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    summary::before {
+      content: "▶";
+      display: inline-block;
+      margin-right: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    details[open] summary::before {
+      transform: rotate(90deg);
+    }
+
+    .memo-content {
+      padding: 0 17px 16px;
+    }
+
+    .memo-content ul {
+      margin-bottom: 0;
+      padding-left: 1.35rem;
+    }
+
+    .memo-content li {
+      margin-bottom: 8px;
+    }
+
+    .photo-tip {
+      color: #674900;
+      font-weight: 800;
+    }
+
+    .cost-table {
+      width: 100%;
+      overflow: hidden;
+      border-collapse: collapse;
+      background: #ffffff;
+      border-radius: 14px;
+    }
+
+    .cost-table th,
+    .cost-table td {
+      padding: 12px 14px;
+      border-bottom: 1px solid #e3eaec;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .cost-table th {
+      color: #ffffff;
+      background: var(--primary);
+    }
+
+    .cost-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .cost-table td:last-child {
+      text-align: right;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    .total-row td {
+      color: var(--primary-dark);
+      background: #eef7f7;
+      font-size: 1.08rem;
+      font-weight: 900;
+    }
+
+    .checklist {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .check-item {
+      padding: 14px;
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 13px;
+    }
+
+    .footer {
+      margin-top: 38px;
+      padding: 24px;
+      color: #dcecef;
+      background: var(--primary-dark);
+      border-radius: 20px;
+      text-align: center;
+    }
+
+    .footer strong {
+      color: #ffd77e;
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .inline-highlight {
+      color: var(--danger);
+      font-weight: 900;
+    }
+
+    .editable-hint {
+      margin: 12px 0 0;
+      color: #e1f2f5;
+      font-size: 0.86rem;
+    }
+
+    @media (max-width: 760px) {
+      .page {
+        width: min(100% - 16px, 1100px);
+        margin-top: 8px;
+      }
+
+      .topbar {
+        position: static;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .hero {
+        padding: 24px 20px;
+      }
+
+      .hero::after {
+        font-size: 9rem;
+      }
+
+      .day-strip {
+        grid-template-columns: 74px 1fr;
+      }
+
+      .day-number {
+        width: 68px;
+        height: 68px;
+        border-radius: 19px;
+        font-size: 1.55rem;
+      }
+
+      .status-grid,
+      .ticket-grid,
+      .checklist {
+        grid-template-columns: 1fr;
+      }
+
+      .timeline {
+        margin-left: 7px;
+        padding-left: 20px;
+      }
+
+      .timeline-item::before {
+        left: -31px;
+      }
+
+      .card-header,
+      .card-body {
+        padding: 17px;
+      }
+
+      .price-panel {
+        grid-template-columns: 1fr;
+      }
+
+      .price {
+        white-space: normal;
+      }
+
+      .cost-table {
+        font-size: 0.9rem;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .page {
+        width: 100%;
+        margin: 0;
+      }
+
+      .topbar,
+      .editable-hint {
+        display: none !important;
+      }
+
+      .hero,
+      .card-header,
+      .ticket-box,
+      .footer,
+      .cost-table th {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .card,
+      .status-card,
+      .ticket-box,
+      .important-box,
+      .budget-box,
+      details {
+        break-inside: avoid;
+        box-shadow: none;
+      }
+
+      details {
+        display: block;
+      }
+
+      details > .memo-content {
+        display: block !important;
+      }
+
+      summary {
+        list-style: none;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+    }
+  </style>
+</head>
+
+<body contenteditable="true" spellcheck="false">
+
+  <main class="page" id="editableDocument">
+
+    <nav class="topbar" contenteditable="false">
+      <div>
+        <div class="topbar-title">🎫 2026 歐洲三國之旅</div>
+        <div id="saveStatus" style="font-size:0.82rem; opacity:0.8;">
+          本地儲存已就緒
+        </div>
+      </div>
+
+      <div class="topbar-actions">
+        <button class="action-button" type="button" onclick="saveDocument()">
+          💾 儲存內容
+        </button>
+        <button class="action-button" type="button" onclick="toggleAllDetails(true)">
+          ＋ 全部展開
+        </button>
+        <button class="action-button" type="button" onclick="toggleAllDetails(false)">
+          － 全部收合
+        </button>
+        <button class="action-button" type="button" onclick="window.print()">
+          🖨️ 列印／導出 PDF
+        </button>
+        <button class="action-button" type="button" onclick="resetDocument()">
+          ↺ 還原原稿
+        </button>
+      </div>
+    </nav>
+
+    <header class="hero">
+      <div class="eyebrow">Day 05 · Croatia</div>
+
+      <h1>
+        Oct 8（四）杜布羅夫尼克 → 斯普利特 Split
+      </h1>
+
+      <p class="hero-subtitle">
+        搭乘 FlixBus 前往斯普利特 ➔ 戴克里先宮古羅馬遺跡 ➔
+        城市地標 ➔ Riva 海濱 ➔ Marjan 日落觀景台
+      </p>
+
+      <div class="day-strip">
+        <div class="day-number">05</div>
+
+        <div class="day-info">
+          <strong>單人旅行｜移動日＋斯普利特半日深度遊</strong>
+          <div>
+            今日重點是先安全完成跨城移動及寄存行李，再依照由東向西的單向動線遊覽，
+            最後準時抵達 Marjan Viewpoint 欣賞約 18:23 的日落。
+          </div>
+        </div>
+      </div>
+
+      <p class="editable-hint">
+        ✏️ 本頁全文可直接點擊修改；內容會自動儲存在此瀏覽器。
+      </p>
+    </header>
+
+    <section class="status-grid">
+      <div class="status-card">
+        <strong>🚌 跨城交通</strong>
+        <span>FlixBus Route 885｜08:30–12:25</span>
+      </div>
+
+      <div class="status-card">
+        <strong>🏠 Split 入住</strong>
+        <span>Luxury Apartment Sea View｜14:00 後</span>
+      </div>
+
+      <div class="status-card">
+        <strong>🌇 日落目標</strong>
+        <span>Marjan Viewpoint｜建議 18:10 前到達</span>
+      </div>
+    </section>
+
+    <section class="ticket-box">
+      <h2>🚌 今日已購車票：Dubrovnik → Split</h2>
+
+      <div class="ticket-grid">
+        <div class="ticket-item">
+          <span class="ticket-label">日期</span>
+          <span class="ticket-value">2026 年 10 月 8 日（星期四）</span>
+        </div>
+
+        <div class="ticket-item">
+          <span class="ticket-label">行車時間</span>
+          <span class="ticket-value">08:30–12:25｜約 3 小時 55 分</span>
+        </div>
+
+        <div class="ticket-item">
+          <span class="ticket-label">上車地點</span>
+          <span class="ticket-value">
+            Dubrovnik Bus Station<br>
+            Obala pape Ivana Pavla II 44
+          </span>
+        </div>
+
+        <div class="ticket-item">
+          <span class="ticket-label">下車地點</span>
+          <span class="ticket-value">
+            Split Bus Station<br>
+            Obala kneza Domagoja 12
+          </span>
+        </div>
+
+        <div class="ticket-item">
+          <span class="ticket-label">路線／營運者</span>
+          <span class="ticket-value">
+            Route 885 FlixBus<br>
+            Direction Vienna Erdberg
+          </span>
+        </div>
+
+        <div class="ticket-item">
+          <span class="ticket-label">已付總價</span>
+          <span class="ticket-value">EUR 31.16</span>
+        </div>
+
+        <div class="ticket-item">
+          <span class="ticket-label">訂單編號</span>
+          <span class="ticket-value">335 036 3275</span>
+        </div>
+
+        <div class="ticket-item">
+          <span class="ticket-label">行李額度</span>
+          <span class="ticket-value">
+            1 件隨身小包＋1 件寄艙行李
+          </span>
+        </div>
+      </div>
+
+      <p>
+        <strong>乘車方式：</strong>
+        車票的電子版或列印版本均可使用。上車時準備好 QR Code、護照及行李，
+        並於司機要求時出示。車票已購買，不需要在 Dubrovnik Bus Station 重新買票。
+      </p>
+
+      <p>
+        <strong>座位重要提醒：</strong>
+        票面顯示「2C + 2D」，但本行程為
+        <strong>單人旅客</strong>。建議出發前在 FlixBus 管理訂單頁面再次確認，
+        這是雙座位預留、額外座位，還是票面格式顯示。
+      </p>
+
+      <a
+        href="https://shop.flixbus.com/rebooking"
+        target="_blank"
+        rel="noopener"
+      >
+        🔧 Manage My Booking
+      </a>
+      &nbsp;｜&nbsp;
+      <a
+        href="https://www.flixbus.com/track/order/3350363275"
+        target="_blank"
+        rel="noopener"
+      >
+        📍 Track Your Trip
+      </a>
+    </section>
+
+    <section class="warning-box">
+      <h2>⚠️ 今日最重要的三個時間</h2>
+      <ol>
+        <li>
+          <strong>07:10 前離開 Dubrovnik 住宿：</strong>
+          舊城內有石階及不平路面，拖行李速度會比一般步行慢。
+        </li>
+        <li>
+          <strong>最遲 08:00 抵達 Dubrovnik Bus Station：</strong>
+          FlixBus 一般要求至少提前 15 分鐘，但單人帶寄艙行李建議預留 30 分鐘。
+        </li>
+        <li>
+          <strong>18:10 前抵達 Marjan Viewpoint：</strong>
+          2026 年 10 月 8 日 Split 日落約為 18:23，需預留拍攝黃金時刻的時間。
+        </li>
+      </ol>
+    </section>
+
+    <div class="section-heading">
+      <div class="icon">🧳</div>
+      <div>
+        <h2>上午：退房及前往 Dubrovnik Bus Station</h2>
+        <p>由舊城住宿出發，預留石階、行李及候車時間。</p>
+      </div>
+    </div>
+
+    <section class="timeline">
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header orange">
+            <div class="time">06:30–07:10</div>
+            <h3>起床、早餐、最後整理及退房</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag solo">👤 單人旅行</span>
+              <span class="tag paid">💶 早餐預算 €5–10</span>
+              <span class="tag alert">⏰ 07:10 前離開</span>
+            </div>
+
+            <p>
+              今早不安排任何景點，所有時間集中用於整理行李及前往車站。
+              建議前一晚先完成大部分收拾工作，早上只需放入充電器及盥洗用品。
+              早餐宜簡單處理，避免因等候餐點而延誤。
+              離開房間前檢查護照、手機、充電器、FlixBus 車票及住宿鎖匙。
+              如果住宿採自助退房，應依房東指示放回鎖匙並拍照留存。
+            </p>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">早餐</div>
+                <div class="price-note">
+                  不指定餐廳，可使用前一晚購買的麵包、乳酪、乳酪飲品或咖啡。
+                </div>
+              </div>
+              <div class="price">€5–10</div>
+            </div>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（退房檢查）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>護照及錢包不要放入寄艙行李。</li>
+                  <li>FlixBus QR Code 先截圖，避免車站網絡不穩。</li>
+                  <li>行李牌寫上姓名、電話及 Split 住宿地址。</li>
+                  <li>檢查床邊、插座、浴室、雪櫃及保險箱。</li>
+                  <li>由於住宿位於 Dubrovnik 舊城，拖行李時要注意濕滑石階。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header red">
+            <div class="time">07:10–07:25</div>
+            <h3>Villa Four Winds III → Buža Gate 城外上車點</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">步行 €0</span>
+              <span class="tag alert">石階及上坡</span>
+              <span class="tag">約 5–15 分鐘</span>
+            </div>
+
+            <p>
+              Villa Four Winds III 位於 Dubrovnik 舊城內的 Kunićeva ulica 26，
+              汽車一般不能直接駛到住宿門口。
+              帶行李時，最直接的方法是由住宿向北步行至 Buža Gate，
+              再到城牆外的 Iza Grada 道路乘搭預約車輛。
+              這段路距離不長，但會經過石階及狹窄巷道，因此不可按一般平路速度估算。
+              建議在離開房間前已經完成叫車，並將接載點設定在 Buža Gate 外圍可停車位置。
+            </p>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Villa+Four+Winds+III%2C+26+Kuni%C4%87eva+ulica%2C+Dubrovnik"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Villa Four Winds III Map
+            </a>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Villa+Four+Winds+III%2C+26+Kuni%C4%87eva+ulica%2C+Dubrovnik&destination=Buza+Gate%2C+Dubrovnik&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 住宿 → Buža Gate 步行導航
+            </a>
+
+            <div class="route-box">
+              <strong>➔ 詳細前往方法：</strong>
+              <ol class="route-steps">
+                <li>由 Villa Four Winds III 帶齊行李離開。</li>
+                <li>沿 Kunićeva ulica 朝 Dubrovnik 舊城北側方向步行。</li>
+                <li>依 Google Maps 指示前往 Buža Gate。</li>
+                <li>穿過城門後到 Iza Grada 的可停車道路。</li>
+                <li>核對司機姓名及車牌後，才將寄艙行李放入車尾箱。</li>
+              </ol>
+            </div>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（單人帶行李安全）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>不要一邊拖大行李一邊拿著沒有掛繩的手機。</li>
+                  <li>在斜坡或石階停下時，先固定行李再查看導航。</li>
+                  <li>若行李太重，可提早聯絡住宿協助搬到城門，但費用需向住宿查詢。</li>
+                  <li>叫車後截圖車牌及司機資料，保留在手機中。</li>
+                  <li>上車前確認目的地是 Dubrovnik Bus Station，而不是市內巴士站。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header red">
+            <div class="time">07:25–07:45</div>
+            <h3>Buža Gate → Dubrovnik Bus Station</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">預約車／的士預算 €12–18</span>
+              <span class="tag">約 10–20 分鐘</span>
+              <span class="tag solo">行李較方便</span>
+            </div>
+
+            <p>
+              由 Buža Gate 前往 Dubrovnik Bus Station，單人帶大行李時以預約車或的士最直接。
+              車輛會沿舊城北側道路向 Gruž 港口方向行駛。
+              正常車程約十多分鐘，但早上交通、道路工程或郵輪接駁車可能令時間延長。
+              目的地地址是 Obala pape Ivana Pavla II 44，位於 Gruž 港口旁。
+              抵達後先確認 FlixBus 的月台資訊，再處理寄艙行李及候車。
+            </p>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">預約車／的士</div>
+                <div class="price-note">
+                  屬預算範圍，實際金額以叫車 App 顯示或的士咪錶為準。
+                </div>
+              </div>
+              <div class="price">約 €12–18</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Dubrovnik+Bus+Station%2C+Obala+pape+Ivana+Pavla+II+44"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Dubrovnik Bus Station Map
+            </a>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Buza+Gate%2C+Dubrovnik&destination=Dubrovnik+Bus+Station%2C+Obala+pape+Ivana+Pavla+II+44&travelmode=driving"
+              target="_blank"
+              rel="noopener"
+            >
+              🚕 Buža Gate → 車站導航
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（較便宜的後備方案）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>
+                    若不乘的士，可由住宿步行往 Pile Gate，再乘 Libertas 市內巴士往 Gruž／Autobusni Kolodvor。
+                  </li>
+                  <li>售票點或電子票一小時票參考價約 €1.73。</li>
+                  <li>直接在巴士上購買單程票參考價約 €2.50。</li>
+                  <li>因路線及班次可能調整，上車前必須向司機確認是否停 Dubrovnik Bus Station。</li>
+                  <li>此方案轉換較多，單人帶寄艙行李時不建議作首選。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header green">
+            <div class="time">07:45–08:30</div>
+            <h3>Dubrovnik Bus Station 候車及寄艙行李</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">車票已付 €31.16</span>
+              <span class="tag alert">最遲 08:15 完成登車準備</span>
+              <span class="tag">Route 885</span>
+            </div>
+
+            <p>
+              抵達車站後先查看電子顯示屏，確認前往 Split 的 FlixBus 月台。
+              電子車票可直接在手機顯示，但應同時保留離線截圖。
+              寄艙行李應貼上姓名及聯絡資料，並親眼確認行李已放入正確巴士。
+              護照、現金、信用卡、手機、相機及充電器必須留在隨身小包。
+              上車後再次核對座位資料，並在巴士行駛期間扣好安全帶。
+            </p>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">FlixBus Dubrovnik → Split</div>
+                <div class="price-note">
+                  已購車票；包含票面列明的隨身及寄艙行李額度。
+                </div>
+              </div>
+              <div class="price">已付 €31.16</div>
+            </div>
+
+            <details open>
+              <summary>🎫 展開／收合登車清單</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>08:30 開車，不要按票面抵達時間才到月台。</li>
+                  <li>向司機出示電子或紙本 Boarding Pass。</li>
+                  <li>訂單編號：335 036 3275。</li>
+                  <li>確認車頭或電子顯示包含 Route 885／Split。</li>
+                  <li>票面方向寫 Vienna Erdberg，Split 是中途停靠站，屬正常情況。</li>
+                  <li>下車前檢查座位上方行李架及座椅充電插口。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header green">
+            <div class="time">08:30–12:25</div>
+            <h3>FlixBus：Dubrovnik → Split</h3>
+          </div>
+
+          <div class="card-body">
+            <p>
+              這段車程約三小時五十五分鐘，沿克羅地亞南部海岸向北前進。
+              車程中應保留手機電量，以便抵達 Split 後使用步行導航及聯絡住宿。
+              巴士可能因道路交通、上落客或其他營運因素稍有延誤。
+              如有中途休息，離車前要確認停留時間，護照及貴重物品需隨身攜帶。
+              接近 Split 時，可預先打開住宿地址及房東聯絡方式，方便下車後立即行動。
+            </p>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（車程安排）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>手機設定鬧鐘於預計抵達前 20 分鐘響起。</li>
+                  <li>準備少量飲用水，但避免一次飲用太多。</li>
+                  <li>充電線及行動電源放在隨身包，不要放入車底行李艙。</li>
+                  <li>抵達 Split 時必須親自領回寄艙行李。</li>
+                  <li>如果巴士延誤，先通知 Split 住宿房東新的預計抵達時間。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="section-heading">
+      <div class="icon">🏠</div>
+      <div>
+        <h2>中午：抵達 Split、放下行李及入住</h2>
+        <p>車站與住宿距離不遠，全程以步行完成。</p>
+      </div>
+    </div>
+
+    <section class="timeline">
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header orange">
+            <div class="time">12:25–12:40</div>
+            <h3>抵達 Split Bus Station 及領取行李</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">到站費用 €0</span>
+              <span class="tag alert">確認領回寄艙行李</span>
+            </div>
+
+            <p>
+              Split Bus Station 位於市中心海旁，與火車站及渡輪港口相鄰。
+              巴士停定後不要急於離開，先到車底行李艙領回自己的寄艙行李。
+              核對行李牌、外觀及件數後，才離開巴士月台範圍。
+              車站外人流及車流較多，單人旅客應將隨身包放在身體前方。
+              完成領取行李後，直接步行前往住宿，不需要乘搭市內交通。
+            </p>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Split+Bus+Station%2C+Obala+kneza+Domagoja+12"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Split Bus Station Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（下車檢查）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>檢查車底行李艙是否取回正確行李。</li>
+                  <li>檢查座位、座椅網袋及上方行李架。</li>
+                  <li>不要接受陌生人主動搬行李後索取費用。</li>
+                  <li>先站到不阻礙人流的位置，再開啟 Google Maps。</li>
+                  <li>如巴士延誤超過 20 分鐘，立即通知住宿房東。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header orange">
+            <div class="time">12:40–12:55</div>
+            <h3>Split Bus Station → Luxury Apartment Sea View</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">步行 €0</span>
+              <span class="tag">約 8–15 分鐘</span>
+              <span class="tag solo">避免額外交通支出</span>
+            </div>
+
+            <p>
+              Luxury Apartment Sea View 位於 Zagrebačka ulica 35A 四樓，
+              從 Split Bus Station 步行即可到達。
+              離開車站後沿 Obala kneza Domagoja 向市中心方向前進，
+              再依導航轉入 Zagrebačka ulica。
+              這一帶行人及車輛較多，拖行李時應使用行人路及過路設施。
+              住宿位於四樓，抵達前應先聯絡房東確認交匙方式、升降機情況及提前放行李安排。
+            </p>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Luxury+Apartment+Sea+View%2C+35A+Zagreba%C4%8Dka+ulica%2C+Split"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Luxury Apartment Sea View Map
+            </a>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Split+Bus+Station%2C+Obala+kneza+Domagoja+12&destination=35A+Zagreba%C4%8Dka+ulica%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 Split 車站 → 住宿導航
+            </a>
+
+            <div class="route-box">
+              <strong>➔ 詳細前往方法：</strong>
+              <ol class="route-steps">
+                <li>從 Split Bus Station 的市中心出口離開。</li>
+                <li>沿 Obala kneza Domagoja 向西北方向步行。</li>
+                <li>依導航朝 Zagrebačka ulica 前進。</li>
+                <li>尋找門牌 35A，而不是只停在 35 號。</li>
+                <li>按房東提供的方法進入大樓及前往四樓。</li>
+              </ol>
+            </div>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（住宿交匙）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>正式入住時間是 14:00，必須提前詢問能否 12:55 左右寄存行李。</li>
+                  <li>住宿人員會在住宿處交鎖匙，抵達前再次致電或傳訊息。</li>
+                  <li>住宿電話：+385 95 551 9690。</li>
+                  <li>住宿位於四樓，若沒有升降機，搬行李需預留額外時間。</li>
+                  <li>不要把住宿門禁密碼公開寫在網頁或分享版本內。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header purple">
+            <div class="time">12:55–14:20</div>
+            <h3>寄存行李、午餐及完成入住</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">午餐預算 €15–25</span>
+              <span class="tag">14:00 正式入住</span>
+              <span class="tag alert">不帶大行李遊覽</span>
+            </div>
+
+            <p>
+              抵達住宿後，先按事前安排寄存行李或等待房東交匙。
+              如果房間尚未完成清潔，應只寄存行李，不要催促提前入住。
+              午餐不指定餐廳，可在住宿附近簡單用餐，避免增加不必要的繞路。
+              14:00 完成入住後，將護照、備用現金及大件行李鎖在房內。
+              外出時只帶手機、相機、飲用水、薄外套及當日所需付款工具。
+            </p>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">午餐</div>
+                <div class="price-note">
+                  不指定餐廳及不新增景點，以住宿附近簡便午餐為原則。
+                </div>
+              </div>
+              <div class="price">€15–25</div>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">Luxury Apartment Sea View</div>
+                <div class="price-note">
+                  住宿訂單已確認；實際已付房價未在本行程資料中提供。
+                </div>
+              </div>
+              <div class="price">已預訂</div>
+            </div>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（外出前準備）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>在房內先為手機及行動電源補充電量。</li>
+                  <li>下載 Split 離線地圖。</li>
+                  <li>穿著防滑鞋，鐘塔樓梯狹窄而且部分位置較陡。</li>
+                  <li>準備小量現金，但主要票務可先詢問能否刷卡。</li>
+                  <li>14:20 必須離開住宿，否則會壓縮 Marjan 日落時間。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="section-heading">
+      <div class="icon">🏛️</div>
+      <div>
+        <h2>下午：戴克里先宮由南向北順路遊覽</h2>
+        <p>地下室 → 前廳 → 大教堂 → 鐘塔 → 朱庇特神廟 → Gregory of Nin。</p>
+      </div>
+    </div>
+
+    <section class="important-box">
+      <h2>🎟️ 戴克里先宮票務總覽</h2>
+
+      <p>
+        戴克里先宮本身是一個融入 Split 舊城街道的歷史區域，
+        進入宮殿公共街道、Peristyle 廣場及前廳均不需要門票。
+        需要付費的是地下室展區，以及由大教堂售票處管理的教堂建築群。
+      </p>
+
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>項目</th>
+            <th>購票方式</th>
+            <th>單人價格</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>戴克里先宮公共區域</td>
+            <td>毋須購票</td>
+            <td>€0</td>
+          </tr>
+          <tr>
+            <td>宮殿地下室 Substructures</td>
+            <td>地下室入口售票處現場購買</td>
+            <td>€10</td>
+          </tr>
+          <tr>
+            <td>Vestibule 前廳</td>
+            <td>毋須購票</td>
+            <td>€0</td>
+          </tr>
+          <tr>
+            <td>聖多米努斯大教堂</td>
+            <td>Peristyle 西側大教堂售票處購買</td>
+            <td>參考 €5</td>
+          </tr>
+          <tr>
+            <td>大教堂鐘塔</td>
+            <td>Peristyle 西側大教堂售票處購買</td>
+            <td>參考 €7</td>
+          </tr>
+          <tr>
+            <td>朱庇特神廟／洗禮堂</td>
+            <td>Peristyle 西側大教堂售票處購買</td>
+            <td>參考 €3</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="2">
+              你指定的全部付費景點預算
+            </td>
+            <td>約 €25</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="small">
+        ※ 地下室 €10 為 2026 官方成人票價。大教堂、鐘塔及朱庇特神廟價格為
+        2026 參考分項價，實際價格及組合票內容須以 2026 年 10 月 8 日現場告示為準。
+        只參觀你指定的三項，不把 Treasury 或 Crypt 排入行程。
+      </p>
+    </section>
+
+    <section class="timeline">
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header">
+            <div class="time">14:20–14:30</div>
+            <h3>Luxury Apartment Sea View → 戴克里先宮南門／地下室入口</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">步行 €0</span>
+              <span class="tag">約 5–10 分鐘</span>
+              <span class="tag">由南側開始單向遊覽</span>
+            </div>
+
+            <p>
+              從住宿出發後向 Split 舊城及 Riva 海濱方向步行。
+              第一站直接前往戴克里先宮南側的地下室入口，
+              可避免先走到宮殿北面後再折返。
+              地下室入口位於 Riva 一側的宮殿南牆附近，亦可由 Brass Gate 一帶進入。
+              抵達後先確認官方售票入口，而不是只進入免費商店通道。
+              購票後依照展區指示進入需要門票的地下室空間。
+            </p>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=35A+Zagreba%C4%8Dka+ulica%2C+Split&destination=Diocletian%27s+Cellars%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 住宿 → 地下室入口導航
+            </a>
+
+            <div class="route-box">
+              <strong>➔ 前往方法：</strong>
+              從 Zagrebačka ulica 35A 向海濱及宮殿南側步行，
+              依導航前往 Diocletian's Cellars／Podrumi Dioklecijanove palače。
+              不先進入北面的 Golden Gate，以免之後需要走回頭路。
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header">
+            <div class="time">14:30–15:15</div>
+            <h3>戴克里先宮地下室｜Diocletian's Palace Substructures</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">成人票 €10</span>
+              <span class="tag">建議停留 45 分鐘</span>
+              <span class="tag">官方開放至 20:00</span>
+            </div>
+
+            <div class="description">
+              <p>
+                戴克里先宮地下室是整座古羅馬宮殿保存最完整的結構之一，
+                其空間原本支撐上方皇帝居住的南側宮殿。
+              </p>
+              <p>
+                由於地下室的格局大致對應昔日上層房間，
+                參觀時可以藉此理解皇宮大廳、走廊及私人空間的原來配置。
+              </p>
+              <p>
+                巨大的石牆、拱頂及柱列保留了古羅馬工程的厚重感，
+                亦展現宮殿如何在漫長歷史中被城市重新利用。
+              </p>
+              <p>
+                部分地下通道可免費穿越，但主要歷史展區需要購票，
+                因此不要把商店通道誤當成完整參觀範圍。
+              </p>
+              <p>
+                地下室光線較暗而且溫度通常比室外低，
+                很適合在下午先參觀，再逐步向上進入宮殿核心。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">成人門票</div>
+                <div class="price-note">
+                  在地下室正式展區入口售票處購買；最遲入場一般為閉館前 30 分鐘。
+                </div>
+              </div>
+              <div class="price">€10</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Diocletian%27s+Cellars%2C+Split"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ 地下室 Google Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（參觀及拍照精華）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li class="photo-tip">
+                    拍照精華：利用連續石拱門形成的對稱線條，站在中央拍攝深度感。
+                  </li>
+                  <li>地下光線不足，手機拍攝時先降低曝光，避免燈光位置過白。</li>
+                  <li>石地可能不平，拍照時不要只看手機畫面。</li>
+                  <li>門票可在現場售票處購買，保留票根至完全離開展區。</li>
+                  <li>15:15 左右離開，避免壓縮鐘塔及 Marjan 日落時間。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 下一站前往方法：地下室 → Vestibule 前廳</strong><br>
+              離開付費地下室展區後，回到中央南北向通道，
+              沿宮殿內部指示及樓梯向上前往 Peristyle／Vestibule。
+              全程約 3–5 分鐘，不需要離開宮殿再繞路。
+            </div>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Diocletian%27s+Cellars%2C+Split&destination=Vestibul%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 地下室 → Vestibule 導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header purple">
+            <div class="time">15:15–15:30</div>
+            <h3>戴克里先宮前廳｜Vestibule</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">門票 €0</span>
+              <span class="tag">建議停留 15 分鐘</span>
+              <span class="tag">古羅馬圓形前廳</span>
+            </div>
+
+            <div class="description">
+              <p>
+                Vestibule 是昔日由 Peristyle 進入戴克里先皇帝私人宮殿的重要前廳。
+              </p>
+              <p>
+                外觀看似方形建築，但內部實際為高聳的圓形空間，
+                建築比例營造出莊嚴而強烈的儀式感。
+              </p>
+              <p>
+                原有圓頂現已不存，抬頭可以直接看見天空，
+                自然光會沿著石牆落入室內。
+              </p>
+              <p>
+                空間的回音效果十分突出，有時會有人在此演唱傳統 Dalmatian 合唱，
+                但是否遇上表演並不固定。
+              </p>
+              <p>
+                這裡連接地下室、Peristyle 及昔日皇帝居所，
+                是理解整座宮殿南北動線的重要節點。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">Vestibule 公共空間</div>
+                <div class="price-note">自由進入，不需要購票。</div>
+              </div>
+              <div class="price">€0</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Vestibul%2C+Split%2C+Croatia"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Vestibule Google Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（拍照精華）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li class="photo-tip">
+                    拍照精華：站在中央垂直向上拍攝圓形天窗，形成天然石框。
+                  </li>
+                  <li>使用手機廣角鏡頭可同時拍到弧形牆面及天空。</li>
+                  <li>人多時先靠牆等候，不要長時間佔用中央位置。</li>
+                  <li>若遇上演唱，可安靜欣賞；打賞屬自願，不列為固定費用。</li>
+                  <li>拍攝後從北側出口前往 Peristyle，不要返回地下室方向。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 下一站前往方法：Vestibule → 聖多米努斯大教堂</strong><br>
+              由 Vestibule 北側出口走出，數十步後便會到達 Peristyle 廣場。
+              大教堂及鐘塔位於廣場東側；先到廣場西側售票處購買你指定項目的門票。
+              步行約 1–3 分鐘。
+            </div>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Vestibul%2C+Split&destination=Cathedral+of+Saint+Domnius%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 Vestibule → 大教堂導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header orange">
+            <div class="time">15:30–15:55</div>
+            <h3>聖多米努斯大教堂｜Cathedral of Saint Domnius</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">參考票價 €5</span>
+              <span class="tag">建議停留 20–25 分鐘</span>
+              <span class="tag alert">宗教活動期間可能限制參觀</span>
+            </div>
+
+            <div class="description">
+              <p>
+                聖多米努斯大教堂位於戴克里先宮核心，
+                建築主體原本是羅馬皇帝戴克里先的陵墓。
+              </p>
+              <p>
+                後來陵墓被改建成基督教教堂，
+                形成古羅馬建築與中世紀宗教藝術共存的特殊空間。
+              </p>
+              <p>
+                教堂內仍可看見古羅馬柱石、圓形格局及後來加入的祭壇和宗教裝飾。
+              </p>
+              <p>
+                木門上的浮雕及內部石雕呈現不同時代的藝術層次，
+                參觀時可以留意建築如何被持續使用及改造。
+              </p>
+              <p>
+                大教堂至今仍是正式宗教場所，
+                因此參觀時應保持安靜，並尊重彌撒及祈禱活動。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">大教堂分項門票</div>
+                <div class="price-note">
+                  參考價；在 Peristyle 西側 Cathedral Treasury 售票處購買。
+                </div>
+              </div>
+              <div class="price">約 €5</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Cathedral+of+Saint+Domnius%2C+Split"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ 大教堂 Google Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（購票、禮儀及拍照）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>向售票員清楚表示需要 Cathedral、Bell Tower 及 Baptistery／Temple of Jupiter。</li>
+                  <li>先詢問分項票及組合票價，再選擇不增加行程的最合適票種。</li>
+                  <li class="photo-tip">
+                    拍照精華：由入口較低角度拍攝古羅馬柱身、祭壇及圓形上層結構。
+                  </li>
+                  <li>若現場禁止攝影或正在舉行儀式，必須立即停止拍攝。</li>
+                  <li>肩膀及膝部宜有適當遮蓋，帽子進入教堂後應除下。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 下一站前往方法：大教堂 → 鐘塔</strong><br>
+              鐘塔與大教堂位於同一建築群，離開大教堂內部後依
+              Bell Tower／Campanile 指示前往登塔入口。
+              不需要離開 Peristyle，步行約 1–2 分鐘。
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header red">
+            <div class="time">15:55–16:30</div>
+            <h3>聖多米努斯大教堂鐘塔｜Bell Tower</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">參考票價 €7</span>
+              <span class="tag">建議停留 30–35 分鐘</span>
+              <span class="tag alert">狹窄樓梯及高處</span>
+            </div>
+
+            <div class="description">
+              <p>
+                聖多米努斯大教堂鐘塔是 Split 舊城最顯眼的垂直地標之一，
+                塔身在戴克里先宮上方形成清晰輪廓。
+              </p>
+              <p>
+                鐘塔主要建於中世紀，外觀以多層石拱及開放式結構向上收窄。
+              </p>
+              <p>
+                登塔途中會經過石階及金屬樓梯，
+                部分位置較陡，而且可直接看見下方空間。
+              </p>
+              <p>
+                抵達高處後可以俯瞰 Peristyle、戴克里先宮紅瓦屋頂、
+                Riva 海濱、港口及遠處的 Marjan Hill。
+              </p>
+              <p>
+                這是今日第一個高空全景位置，
+                亦能預先看清稍後由舊城步行往 Marjan Viewpoint 的方向。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">鐘塔分項門票</div>
+                <div class="price-note">
+                  參考價；與大教堂門票一併在 Cathedral Treasury 售票處購買。
+                </div>
+              </div>
+              <div class="price">約 €7</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Saint+Domnius+Bell+Tower%2C+Split"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ 鐘塔 Google Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（安全及拍照精華）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>有畏高、頭暈或膝部不適時，不要勉強快速登塔。</li>
+                  <li>與前方遊客保持距離，不要在狹窄樓梯突然停下拍照。</li>
+                  <li>手機應使用手腕帶或牢固握持，避免由高處墜落。</li>
+                  <li class="photo-tip">
+                    拍照精華：朝南拍 Riva 與港口，朝西拍紅瓦屋頂及 Marjan Hill。
+                  </li>
+                  <li>風大時不要把帽子或紙張拿在手上。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 下一站前往方法：鐘塔 → 朱庇特神廟</strong><br>
+              下塔後返回 Peristyle 地面，沿廣場西側狹窄通道前往
+              Kraj Svetog Ivana。朱庇特神廟位於大教堂西面，
+              步行約 2–4 分鐘。
+            </div>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Saint+Domnius+Bell+Tower%2C+Split&destination=Temple+of+Jupiter%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 鐘塔 → 朱庇特神廟導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header purple">
+            <div class="time">16:30–16:50</div>
+            <h3>朱庇特神廟｜Temple of Jupiter</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">參考票價 €3</span>
+              <span class="tag">建議停留 15–20 分鐘</span>
+              <span class="tag">後改為洗禮堂</span>
+            </div>
+
+            <div class="description">
+              <p>
+                朱庇特神廟是戴克里先宮內保存重要的古羅馬宗教建築，
+                原本用於祭祀羅馬主神朱庇特。
+              </p>
+              <p>
+                建築位於昔日皇宮宗教區域，
+                與皇帝陵墓隔著 Peristyle 相互呼應。
+              </p>
+              <p>
+                神廟後來被改建成聖若翰洗禮堂，
+                因此內部同時保留古羅馬及基督教時期的元素。
+              </p>
+              <p>
+                室內最具特色的是保存良好的桶形格狀石拱頂，
+                石刻幾何圖案在狹小空間內尤其突出。
+              </p>
+              <p>
+                神廟前方亦可看到由埃及運來的花崗岩獅身人面像，
+                反映戴克里先宮當年的帝國規模及象徵系統。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">朱庇特神廟／洗禮堂門票</div>
+                <div class="price-note">
+                  參考價；應在 Cathedral Treasury 售票處提前一併購買。
+                </div>
+              </div>
+              <div class="price">約 €3</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Temple+of+Jupiter%2C+Split"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ 朱庇特神廟 Google Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（細節及拍照精華）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li class="photo-tip">
+                    拍照精華：使用廣角鏡頭由入口向內拍攝完整桶形格狀石拱頂。
+                  </li>
+                  <li>空間很小，人多時先讓其他遊客離開再拍攝。</li>
+                  <li>留意洗禮池石板上的中世紀人物雕刻。</li>
+                  <li>拍攝外觀時可把入口、窄巷及獅身人面像一同納入畫面。</li>
+                  <li>16:50 必須離開，之後需要向北前往 Gregory of Nin。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 下一站前往方法：朱庇特神廟 → Gregory of Nin</strong><br>
+              從神廟返回宮殿主街，向北沿 Dioklecijanova ulica 前進，
+              穿過 Golden Gate 後即可看到 Gregory of Nin 雕像。
+              全程約 5–8 分鐘，不需要返回 Riva。
+            </div>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Temple+of+Jupiter%2C+Split&destination=Gregory+of+Nin+Statue%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 朱庇特神廟 → Gregory of Nin 導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header green">
+            <div class="time">16:50–17:10</div>
+            <h3>Gregory of Nin｜格雷戈里主教雕像</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">門票 €0</span>
+              <span class="tag">建議停留 15–20 分鐘</span>
+              <span class="tag">Golden Gate 外</span>
+            </div>
+
+            <div class="description">
+              <p>
+                Gregory of Nin 雕像位於戴克里先宮 Golden Gate 北面，
+                是 Split 最容易辨認的城市地標之一。
+              </p>
+              <p>
+                Gregory of Nin 是中世紀克羅地亞的重要主教，
+                以推動在宗教儀式中使用當地語言而聞名。
+              </p>
+              <p>
+                這座大型雕像由克羅地亞著名雕塑家 Ivan Meštrović 創作，
+                人物姿態高大而具有強烈力量感。
+              </p>
+              <p>
+                雕像右腳大拇指因長年被遊客觸摸而呈現明亮金色，
+                民間傳說觸摸它可以帶來好運。
+              </p>
+              <p>
+                從雕像位置亦可同時欣賞 Golden Gate 的古羅馬石牆，
+                很適合把人物雕塑與宮殿北門放在同一構圖中。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">戶外公共地標</div>
+                <div class="price-note">全天自由參觀，不需要購票。</div>
+              </div>
+              <div class="price">€0</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Gregory+of+Nin+Statue%2C+Split"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Gregory of Nin Google Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（拍照精華）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li class="photo-tip">
+                    拍照精華：使用低角度把完整雕像、伸出的手及天空一併拍入畫面。
+                  </li>
+                  <li>另一構圖可站在雕像側面，把 Golden Gate 放在背景。</li>
+                  <li>近拍金色腳趾時留意排隊，不要長時間阻擋其他遊客。</li>
+                  <li>使用手機超廣角時注意人物邊緣變形。</li>
+                  <li>17:10 離開，向南穿過舊城前往 Riva 海濱。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 下一站前往方法：Gregory of Nin → Split Riva</strong><br>
+              由雕像穿過 Golden Gate 返回戴克里先宮，
+              沿宮殿主街一路向南前進，穿過 Brass Gate 後便到達 Riva。
+              步行約 7–10 分鐘，路線由北向南，沒有重複參觀景點。
+            </div>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Gregory+of+Nin+Statue%2C+Split&destination=Riva%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 Gregory of Nin → Riva 導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="section-heading">
+      <div class="icon">🌅</div>
+      <div>
+        <h2>黃昏：Riva 海濱 → Marjan Viewpoint 日落</h2>
+        <p>由舊城一路向西，最後登上第一觀景台。</p>
+      </div>
+    </div>
+
+    <section class="timeline">
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header orange">
+            <div class="time">17:10–17:40</div>
+            <h3>Split Riva｜斯普利特海濱長廊</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">門票 €0</span>
+              <span class="tag">建議停留 25–30 分鐘</span>
+              <span class="tag">沿西面出口前進</span>
+            </div>
+
+            <div class="description">
+              <p>
+                Split Riva 是戴克里先宮南牆外的主要海濱長廊，
+                亦是整座城市最具代表性的公共空間之一。
+              </p>
+              <p>
+                長廊一面面向亞得里亞海及港口，
+                另一面則可看到宮殿南牆、商店及露天座位。
+              </p>
+              <p>
+                成排棕櫚樹、淺色石地及港內船隻，
+                形成 Split 最典型的地中海城市景觀。
+              </p>
+              <p>
+                黃昏時陽光會由西面照向海濱及宮殿外牆，
+                石材顏色會比中午時更柔和。
+              </p>
+              <p>
+                今日只沿 Riva 由東向西慢慢步行，
+                之後直接接上通往 Marjan Viewpoint 的上坡路線。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">公共海濱長廊</div>
+                <div class="price-note">
+                  自由步行，不安排付費活動或額外景點。
+                </div>
+              </div>
+              <div class="price">€0</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Riva%2C+Split%2C+Croatia"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Split Riva Google Map
+            </a>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（拍照精華及時間控制）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li class="photo-tip">
+                    拍照精華：從海濱一側回望宮殿南牆，把棕櫚樹及鐘塔放入構圖。
+                  </li>
+                  <li>靠近港口拍攝時，可利用船隻及海面作前景。</li>
+                  <li>向西步行時不需要走完整條長廊後再折返。</li>
+                  <li>不要在此停下長時間用餐，否則會錯過 Marjan 日落。</li>
+                  <li>17:40 必須從 Riva 西端開始往 Marjan Viewpoint 上山。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 下一站前往方法：Split Riva → Marjan Viewpoint</strong><br>
+              沿 Riva 向西走到海濱西端，接入 Varoš 一帶。
+              依導航轉入 Senjska ulica，沿石階及上坡道路向
+              Prva Vidilica／Marjan First Viewpoint 前進。
+              全程約 20–30 分鐘，最後一段有連續上坡及樓梯。
+            </div>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Riva%2C+Split&destination=Prva+Vidilica+Na+Marjanu%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 Riva → Marjan Viewpoint 導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header red">
+            <div class="time">17:40–18:10</div>
+            <h3>步行登上 Marjan Viewpoint</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">步行 €0</span>
+              <span class="tag alert">上坡＋樓梯</span>
+              <span class="tag">預留 30 分鐘</span>
+            </div>
+
+            <p>
+              從 Riva 西端進入 Varoš 後，街道會逐漸轉為上坡。
+              Senjska ulica 是前往 Marjan 第一觀景台的主要步行方向之一。
+              石階不算很長，但經過整個下午的步行後，速度可能比地圖預計慢。
+              上山期間只需依照 Prva Vidilica 或 Marjan 指示前進，
+              不要繼續深入較高處的山頂路線。
+              今日目標只是你指定的 Marjan Viewpoint，18:10 左右抵達即可。
+            </p>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（登山節奏）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>17:40 前先在 Riva 使用洗手間及補充飲用水。</li>
+                  <li>上坡時保持穩定速度，不需要跑上山。</li>
+                  <li>穿過路口時留意電單車及汽車。</li>
+                  <li>如導航顯示多條路線，選擇通往 Prva Vidilica 的步行路線。</li>
+                  <li>觀景台日落後會較暗，手機電量及照明必須足夠。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header purple">
+            <div class="time">18:10–18:50</div>
+            <h3>Marjan Viewpoint｜Prva Vidilica 日落</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag free">門票 €0</span>
+              <span class="tag">日落約 18:23</span>
+              <span class="tag alert">日落後注意下山照明</span>
+            </div>
+
+            <div class="description">
+              <p>
+                Marjan Viewpoint 位於 Marjan Hill 東側，
+                是從 Split 市中心步行最容易到達的主要觀景位置。
+              </p>
+              <p>
+                觀景台向東可俯瞰戴克里先宮、鐘塔、Riva、
+                Split 港口及密集的舊城屋頂。
+              </p>
+              <p>
+                向南則可看到亞得里亞海、港內船隻及遠方島嶼，
+                視野比舊城地面更加完整。
+              </p>
+              <p>
+                2026 年 10 月 8 日當地日落約為 18:23，
+                18:10 抵達可同時拍攝日落前金色光線及日落後藍調時刻。
+              </p>
+              <p>
+                這裡是今日最後一個指定景點，
+                欣賞完日落後直接沿原下山方向返回住宿，不再增加其他景點。
+              </p>
+            </div>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">戶外觀景台</div>
+                <div class="price-note">
+                  公共空間，不需要門票；飲品或餐飲並非必要支出。
+                </div>
+              </div>
+              <div class="price">€0</div>
+            </div>
+
+            <a
+              class="map-button"
+              href="https://www.google.com/maps/search/?api=1&query=Prva+Vidilica+Na+Marjanu%2C+Split"
+              target="_blank"
+              rel="noopener"
+            >
+              🗺️ Marjan Viewpoint Google Map
+            </a>
+
+            <details open>
+              <summary>💡 展開／收合備忘錄（日落拍照精華）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li class="photo-tip">
+                    拍照精華：使用橫向廣角拍攝舊城、鐘塔、港口及海面全景。
+                  </li>
+                  <li>
+                    在日落前拍攝時，點按天空較亮位置並稍微降低曝光，保留雲層及夕陽顏色。
+                  </li>
+                  <li>
+                    日落後約 10–20 分鐘可拍藍調時刻，城市燈光會逐漸亮起。
+                  </li>
+                  <li>觀景台邊緣及樓梯位置不要倒後行走拍照。</li>
+                  <li>單人自拍時確保腳架不阻礙通道，並始終留意個人物品。</li>
+                  <li>10 月黃昏可能有風，準備薄外套。</li>
+                </ul>
+              </div>
+            </details>
+
+            <div class="route-box">
+              <strong>➔ 最後前往方法：Marjan Viewpoint → Luxury Apartment Sea View</strong><br>
+              18:50 左右沿原方向經 Senjska ulica 下山，
+              返回 Riva 西端後沿海濱向東步行。
+              再依導航經 Split 舊城外圍返回 Zagrebačka ulica 35A。
+              全程約 20–30 分鐘，預計 19:15–19:25 回到住宿附近。
+            </div>
+
+            <a
+              class="route-button"
+              href="https://www.google.com/maps/dir/?api=1&origin=Prva+Vidilica+Na+Marjanu%2C+Split&destination=35A+Zagreba%C4%8Dka+ulica%2C+Split&travelmode=walking"
+              target="_blank"
+              rel="noopener"
+            >
+              🚶 Marjan Viewpoint → 住宿導航
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="timeline-item">
+        <div class="card">
+          <div class="card-header green">
+            <div class="time">19:15 後</div>
+            <h3>晚餐及返回住宿休息</h3>
+          </div>
+
+          <div class="card-body">
+            <div class="tag-row">
+              <span class="tag paid">晚餐預算 €20–30</span>
+              <span class="tag">不指定餐廳</span>
+              <span class="tag solo">晚間注意個人物品</span>
+            </div>
+
+            <p>
+              從 Marjan Viewpoint 下山後，沿返回住宿的方向自行安排晚餐。
+              為了遵守不增加景點的要求，本行程不指定餐廳或額外繞路。
+              可選擇在 Riva 至住宿之間的路線上用餐，或先返回住宿稍作休息。
+              用餐後按原定導航回到 Zagrebačka ulica 35A，不需要再次進入景點。
+              回房後整理翌日用品、為所有裝置充電，結束 Day 5 行程。
+            </p>
+
+            <div class="price-panel">
+              <div>
+                <div class="price-title">晚餐</div>
+                <div class="price-note">
+                  不指定餐廳；價格按一般單人主菜及非酒精飲品估算。
+                </div>
+              </div>
+              <div class="price">€20–30</div>
+            </div>
+
+            <details>
+              <summary>💡 展開／收合備忘錄（回房後）</summary>
+              <div class="memo-content">
+                <ul>
+                  <li>檢查翌日退房時間為 10:00 前。</li>
+                  <li>為手機、相機及行動電源充電。</li>
+                  <li>備份今日照片至雲端或第二裝置。</li>
+                  <li>確認住宿門鎖及窗戶已關好。</li>
+                  <li>不要把護照、信用卡及現金全部放在同一個袋內。</li>
+                </ul>
+              </div>
+            </details>
+          </div>
+        </div>
+      </article>
+
+    </section>
+
+    <div class="section-heading">
+      <div class="icon">💶</div>
+      <div>
+        <h2>Day 5 單人預算總表</h2>
+        <p>清楚分開已付款、固定票價及預算支出。</p>
+      </div>
+    </div>
+
+    <section class="budget-box">
+      <table class="cost-table">
+        <thead>
+          <tr>
+            <th>支出項目</th>
+            <th>備註</th>
+            <th>金額</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>FlixBus Dubrovnik → Split</td>
+            <td>已購車票</td>
+            <td>已付 €31.16</td>
+          </tr>
+          <tr>
+            <td>Dubrovnik 住宿 → Bus Station</td>
+            <td>預約車／的士估算</td>
+            <td>€12–18</td>
+          </tr>
+          <tr>
+            <td>早餐</td>
+            <td>簡便處理</td>
+            <td>€5–10</td>
+          </tr>
+          <tr>
+            <td>午餐</td>
+            <td>住宿附近，不指定餐廳</td>
+            <td>€15–25</td>
+          </tr>
+          <tr>
+            <td>戴克里先宮地下室</td>
+            <td>2026 官方成人票價</td>
+            <td>€10</td>
+          </tr>
+          <tr>
+            <td>聖多米努斯大教堂</td>
+            <td>2026 參考分項價</td>
+            <td>約 €5</td>
+          </tr>
+          <tr>
+            <td>大教堂鐘塔</td>
+            <td>2026 參考分項價</td>
+            <td>約 €7</td>
+          </tr>
+          <tr>
+            <td>朱庇特神廟</td>
+            <td>2026 參考分項價</td>
+            <td>約 €3</td>
+          </tr>
+          <tr>
+            <td>Vestibule／Gregory／Riva／Marjan</td>
+            <td>全部免費</td>
+            <td>€0</td>
+          </tr>
+          <tr>
+            <td>晚餐</td>
+            <td>不指定餐廳</td>
+            <td>€20–30</td>
+          </tr>
+          <tr class="total-row">
+            <td colspan="2">
+              今日預計新增支出<br>
+              <span class="small">
+                不包括已付 FlixBus 及未提供金額的住宿費
+              </span>
+            </td>
+            <td>約 €77–108</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <div class="section-heading">
+      <div class="icon">✅</div>
+      <div>
+        <h2>單人旅行最終檢查表</h2>
+        <p>出發前逐項確認。</p>
+      </div>
+    </div>
+
+    <section class="checklist">
+      <div class="check-item">☐ FlixBus QR Code 已截圖及離線保存</div>
+      <div class="check-item">☐ 護照及錢包放在隨身包</div>
+      <div class="check-item">☐ 寄艙行李已貼姓名及聯絡資料</div>
+      <div class="check-item">☐ 已向 Split 房東確認提前寄存行李</div>
+      <div class="check-item">☐ 已確認住宿四樓的升降機／搬運安排</div>
+      <div class="check-item">☐ 手機、相機及行動電源已充滿</div>
+      <div class="check-item">☐ 已下載 Dubrovnik 及 Split 離線地圖</div>
+      <div class="check-item">☐ 已準備防滑鞋及薄外套</div>
+      <div class="check-item">☐ 17:40 前離開 Riva 前往 Marjan</div>
+      <div class="check-item">☐ 日落後使用照明並留意下山樓梯</div>
+    </section>
+
+    <footer class="footer">
+      <strong>2026 歐洲三國之旅｜Day 5</strong><br>
+      Dubrovnik → Split<br>
+      FlixBus ➔ Luxury Apartment Sea View ➔
+      戴克里先宮地下室 ➔ Vestibule ➔
+      聖多米努斯大教堂 ➔ 鐘塔 ➔
+      朱庇特神廟 ➔ Gregory of Nin ➔
+      Split Riva ➔ Marjan Viewpoint
+      <br><br>
+      <span style="font-size:0.88rem;">
+        本頁全文可編輯並自動儲存在此瀏覽器。
+        車次、月台、景點開放時間及票價可能臨時調整，
+        請於 2026 年 10 月 7 日晚及 10 月 8 日當日再次核對。
+      </span>
+    </footer>
+
+  </main>
+
+  <script>
+    const STORAGE_KEY = "europe-trip-2026-day5-split-html";
+    const documentArea = document.getElementById("editableDocument");
+    const originalHTML = documentArea.innerHTML;
+    let saveTimer;
+
+    function updateSaveStatus(message) {
+      const status = document.getElementById("saveStatus");
+      if (!status) return;
+
+      status.textContent = message;
+
+      window.setTimeout(() => {
+        const currentStatus = document.getElementById("saveStatus");
+        if (currentStatus) {
+          currentStatus.textContent = "本地儲存已就緒";
+        }
+      }, 1800);
+    }
+
+    function saveDocument(showMessage = true) {
+      try {
+        localStorage.setItem(STORAGE_KEY, documentArea.innerHTML);
+
+        if (showMessage) {
+          updateSaveStatus("✅ 內容已儲存");
+        }
+      } catch (error) {
+        console.error("儲存失敗：", error);
+        updateSaveStatus("⚠️ 儲存失敗");
+      }
+    }
+
+    function loadDocument() {
+      try {
+        const savedHTML = localStorage.getItem(STORAGE_KEY);
+
+        if (savedHTML) {
+          documentArea.innerHTML = savedHTML;
+          updateSaveStatus("✅ 已載入上次編輯內容");
+        }
+      } catch (error) {
+        console.error("載入失敗：", error);
+      }
+    }
+
+    function resetDocument() {
+      const confirmed = window.confirm(
+        "確定要刪除所有自行修改，並還原最初版本嗎？"
+      );
+
+      if (!confirmed) return;
+
+      localStorage.removeItem(STORAGE_KEY);
+      documentArea.innerHTML = originalHTML;
+      updateSaveStatus("↺ 已還原原稿");
+    }
+
+    function toggleAllDetails(openState) {
+      documentArea.querySelectorAll("details").forEach((detail) => {
+        detail.open = openState;
+      });
+
+      saveDocument(false);
+    }
+
+    documentArea.addEventListener("input", () => {
+      window.clearTimeout(saveTimer);
+
+      saveTimer = window.setTimeout(() => {
+        saveDocument(false);
+
+        const status = document.getElementById("saveStatus");
+        if (status) {
+          status.textContent = "✅ 已自動儲存";
+        }
+      }, 600);
+    });
+
+    window.addEventListener("beforeunload", () => {
+      saveDocument(false);
+    });
+
+    window.addEventListener("DOMContentLoaded", loadDocument);
+  </script>
+
+</body>
+</html>
